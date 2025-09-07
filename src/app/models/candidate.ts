@@ -1,0 +1,32 @@
+export interface Candidate {
+  id: string;
+  fullName: string;
+  email: string;
+  phoneNumber: string;
+  age: number;
+  city: string;
+  hobbies: string;
+  whyPerfectCandidate: string;
+  profileImage?: string;
+  submissionDate: Date;
+  lastEditDate?: Date;
+  canEdit: boolean; 
+}
+
+export interface CandidateFormData {
+  fullName: string;
+  email: string;
+  phoneNumber: string;
+  age: number;
+  city: string;
+  hobbies: string;
+  whyPerfectCandidate: string;
+  profileImage?: File;
+}
+
+
+export interface VisitStats {
+  totalVisits: number;
+  registrations: number;
+  lastVisit: Date;
+}

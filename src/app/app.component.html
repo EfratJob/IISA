@@ -1,7 +1,36 @@
+ <div class="app-container">
+      <mat-toolbar color="primary" class="header">
+        <button mat-icon-button (click)="toggleSidenav()" [class.hidden]="!isMobile()">
+          <mat-icon>menu</mat-icon>
+        </button>
+        <span class="title"> IISA - Israeli Imaginary Space Agency</span>
+        <span class="spacer"></span>
+        <nav class="desktop-nav" [class.hidden]="isMobile()">
+          <a mat-button routerLink="/registration" routerLinkActive="active">הרשמה</a>
+          <a mat-button routerLink="/dashboard" routerLinkActive="active">דשבורד</a>
+        </nav>
+      </mat-toolbar>
 
+      <mat-sidenav-container class="sidenav-container">
+        <mat-sidenav #drawer class="sidenav" fixedInViewport
+                     [attr.role]="isMobile() ? 'dialog' : 'navigation'"
+                     [mode]="isMobile() ? 'over' : 'side'"
+                     [opened]="!isMobile() && sidenavOpen()">
+          <mat-toolbar>תפריט</mat-toolbar>
+          <nav class="mobile-nav">
+            <a mat-button routerLink="/registration" routerLinkActive="active" (click)="closeMobileSidenav()">
+              <mat-icon>person_add</mat-icon>
+              הרשמה לטיסה
+            </a>
+            <a mat-button routerLink="/dashboard" routerLinkActive="active" (click)="closeMobileSidenav()">
+              <mat-icon>dashboard</mat-icon>
+              דשבורד ניהול
+            </a>
+          </nav>
+        </mat-sidenav>
 
-<main class="main">
-
-</main>
-
-<router-outlet />
+        <mat-sidenav-content class="main-content">
+          <router-outlet></router-outlet>
+        </mat-sidenav-content>
+      </mat-sidenav-container>
+    </div>

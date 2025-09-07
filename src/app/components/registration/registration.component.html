@@ -1,0 +1,155 @@
+<div class="registration-container">
+      <mat-card class="registration-card">
+        <mat-card-header>
+          <div class="header-content">
+            <mat-icon class="space-icon">rocket_launch</mat-icon>
+            <div class="header-text">
+              <mat-card-title>הרשמה לטיסת החלל הישראלית הראשונה</mat-card-title>
+              <mat-card-subtitle>סוכנות החלל הישראלית הדמיונית (IISA)</mat-card-subtitle>
+            </div>
+          </div>
+        </mat-card-header>
+
+        <mat-card-content>
+          <div *ngIf="isEditMode()" class="edit-notification">
+            <mat-icon>edit</mat-icon>
+            <span>אתה עורך את הפרטים שלך. ניתן לערוך עד 3 ימים מהגשת הטופס.</span>
+          </div>
+
+          <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()" class="registration-form">
+            
+            <div class="form-section">
+              <h3>פרטים אישיים</h3>
+              
+              <div class="form-row">
+                <mat-form-field appearance="outline" class="full-width">
+                  <mat-label>שם מלא</mat-label>
+                  <input matInput formControlName="fullName" placeholder="הכנס שם מלא">
+                  <mat-error *ngIf="registrationForm.get('fullName')?.hasError('required')">
+                    שם מלא נדרש
+                  </mat-error>
+                  <mat-error *ngIf="registrationForm.get('fullName')?.hasError('minlength')">
+                    שם מלא חייב להכיל לפחות 2 תווים
+                  </mat-error>
+                </mat-form-field>
+              </div>
+
+              <div class="form-row">
+                <mat-form-field appearance="outline" class="half-width">
+                  <mat-label>כתובת אימייל</mat-label>
+                  <input matInput formControlName="email" type="email" placeholder="example@email.com">
+                  <mat-error *ngIf="registrationForm.get('email')?.hasError('required')">
+                    כתובת אימייל נדרשת
+                  </mat-error>
+                  <mat-error *ngIf="registrationForm.get('email')?.hasError('email')">
+                    כתובת אימייל לא תקינה
+                  </mat-error>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="half-width">
+                  <mat-label>מספר טלפון</mat-label>
+                  <input matInput formControlName="phoneNumber" placeholder="050-1234567">
+                  <mat-error *ngIf="registrationForm.get('phoneNumber')?.hasError('required')">
+                    מספר טלפון נדרש
+                  </mat-error>
+                  <mat-error *ngIf="registrationForm.get('phoneNumber')?.hasError('pattern')">
+                    מספר טלפון לא תקין
+                  </mat-error>
+                </mat-form-field>
+              </div>
+
+              <div class="form-row">
+                <mat-form-field appearance="outline" class="half-width">
+                  <mat-label>גיל</mat-label>
+                  <input matInput formControlName="age" type="number" placeholder="25">
+                  <mat-error *ngIf="registrationForm.get('age')?.hasError('required')">
+                    גיל נדרש
+                  </mat-error>
+                  <mat-error *ngIf="registrationForm.get('age')?.hasError('min')">
+                    גיל מינימלי 18
+                  </mat-error>
+                  <mat-error *ngIf="registrationForm.get('age')?.hasError('max')">
+                    גיל מקסימלי 80
+                  </mat-error>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="half-width">
+                  <mat-label>עיר מגורים</mat-label>
+                  <input matInput formControlName="city" placeholder="תל אביב">
+                  <mat-error *ngIf="registrationForm.get('city')?.hasError('required')">
+                    עיר מגורים נדרשת
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+
+            <div class="form-section">
+              <h3>מידע נוסף</h3>
+              
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>תחביבים</mat-label>
+                <textarea matInput formControlName="hobbies" rows="3" 
+                         placeholder="ספר על התחביבים שלך..."></textarea>
+                <mat-error *ngIf="registrationForm.get('hobbies')?.hasError('required')">
+                  תחביבים נדרשים
+                </mat-error>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>למה אני המועמד המושלם</mat-label>
+                <textarea matInput formControlName="whyPerfectCandidate" rows="4" 
+                         placeholder="הסבר למה אתה חושב שאתה המועמד המושלם לטיסת החלל..."></textarea>
+                <mat-error *ngIf="registrationForm.get('whyPerfectCandidate')?.hasError('required')">
+                  הסבר נדרש
+                </mat-error>
+                <mat-error *ngIf="registrationForm.get('whyPerfectCandidate')?.hasError('minlength')">
+                  הסבר חייב להכיל לפחות 50 תווים
+                </mat-error>
+              </mat-form-field>
+            </div>
+
+            <div class="form-section">
+              <h3>תמונת פרופיל</h3>
+              <div class="image-upload-container">
+                <input #fileInput type="file" accept="image/jpeg,image/png" 
+                       (change)="onFileSelected($event)" hidden>
+                
+                <div *ngIf="!selectedImagePreview()" class="upload-placeholder" 
+                     (click)="fileInput.click()">
+                  <mat-icon class="upload-icon">cloud_upload</mat-icon>
+                  <p>לחץ כדי להעלות תמונה</p>
+                  <small>JPEG או PNG בלבד</small>
+                </div>
+
+                <div *ngIf="selectedImagePreview()" class="image-preview">
+                  <img [src]="selectedImagePreview()" alt="תמונת פרופיל">
+                  <button mat-icon-button type="button" (click)="removeImage()" 
+                          class="remove-image-btn">
+                    <mat-icon>close</mat-icon>
+                  </button>
+                  <button mat-stroked-button type="button" (click)="fileInput.click()" 
+                          class="change-image-btn">
+                    החלף תמונה
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-actions">
+              <button mat-raised-button color="primary" type="submit" 
+                      [disabled]="!registrationForm.valid || isLoading()" 
+                      class="submit-btn">
+                <mat-spinner *ngIf="isLoading()" diameter="20"></mat-spinner>
+                <mat-icon *ngIf="!isLoading()">rocket_launch</mat-icon>
+                {{ isEditMode() ? 'עדכן פרטים' : 'הרשם לטיסה' }}
+              </button>
+
+              <button *ngIf="isEditMode()" mat-button type="button" 
+                      (click)="cancelEdit()" class="cancel-btn">
+                ביטול
+              </button>
+            </div>
+          </form>
+        </mat-card-content>
+      </mat-card>
+    </div>
