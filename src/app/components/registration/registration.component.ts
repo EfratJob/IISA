@@ -11,6 +11,7 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatStepperModule } from '@angular/material/stepper';
 import { Candidate, CandidateFormData } from '../../models/candidate';
 import { DataService } from '../../services/data.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-registration',
@@ -31,21 +32,19 @@ import { DataService } from '../../services/data.service';
 export class RegistrationComponent {
   registrationForm!: FormGroup;
 
-  private selectedImageSignal = signal<File | null>(null);
-  private selectedImagePreviewSignal = signal<string | null>(null);
-  private isLoadingSignal = signal(false);
-  private isEditModeSignal = signal(false);
+  isLoading = signal(false);
+   isEditMode = signal(false);
+  selectedImagePreview = signal<string | null>(null);
+  private selectedImage = signal<File | null>(null);
   private editingCandidateSignal = signal<Candidate | null>(null);
 
-  readonly selectedImagePreview = this.selectedImagePreviewSignal.asReadonly();
-  readonly isLoading = this.isLoadingSignal.asReadonly();
-  readonly isEditMode = this.isEditModeSignal.asReadonly();
 
   constructor(
     private fb: FormBuilder,
     private dataService: DataService,
-    private snackBar: MatSnackBar
-  ) { }
+    private snackBar: MatSnackBar,
+    private router: Router) { }
+
 
   ngOnInit(): void {
     this.initializeForm();
@@ -60,7 +59,7 @@ export class RegistrationComponent {
       age: ['', [Validators.required, Validators.min(18), Validators.max(80)]],
       city: ['', [Validators.required]],
       hobbies: ['', [Validators.required]],
-      whyPerfectCandidate: ['', [Validators.required, Validators.minLength(50)]]
+      whyPerfectCandidate: ['', [Validators.required, Validators.minLength(20)]]
     });
   }
 
@@ -72,7 +71,7 @@ export class RegistrationComponent {
   }
 
   private loadCandidateForEdit(candidate: Candidate): void {
-    this.isEditModeSignal.set(true);
+    this.isEditMode.set(true);
     this.editingCandidateSignal.set(candidate);
 
     this.registrationForm.patchValue({
@@ -86,7 +85,7 @@ export class RegistrationComponent {
     });
 
     if (candidate.profileImage) {
-      this.selectedImagePreviewSignal.set(candidate.profileImage);
+      this.selectedImagePreview.set(candidate.profileImage);
     }
   }
 
@@ -112,29 +111,29 @@ export class RegistrationComponent {
       return;
     }
 
-    this.selectedImageSignal.set(file);
+    this.selectedImage.set(file);
 
     const reader = new FileReader();
     reader.onload = () => {
-      this.selectedImagePreviewSignal.set(reader.result as string);
+      this.selectedImagePreview.set(reader.result as string);
     };
     reader.readAsDataURL(file);
   }
 
   removeImage(): void {
-    this.selectedImageSignal.set(null);
-    this.selectedImagePreviewSignal.set(null);
+    this.selectedImage.set(null);
+    this.selectedImagePreview.set(null);
   }
 
-  async onSubmit(): Promise<void> {
+   onSubmit() {
     if (!this.registrationForm.valid) return;
 
-    this.isLoadingSignal.set(true);
+    this.isLoading.set(true);
 
     try {
       const formData: CandidateFormData = {
         ...this.registrationForm.value,
-        profileImage: this.selectedImageSignal()
+        profileImage: this.selectedImage()
       };
 
       if (this.isEditMode()) {
@@ -162,6 +161,7 @@ export class RegistrationComponent {
               horizontalPosition: 'center',
               verticalPosition: 'top'
             });
+            this.router.navigate(['/register-success']);
             this.resetForm();
           } else {
             throw new Error('לא ניתן להוסיף את המועמד');
@@ -176,7 +176,7 @@ export class RegistrationComponent {
       });
       console.error('Error submitting form:', error);
     } finally {
-      this.isLoadingSignal.set(false);
+      this.isLoading.set(false);
     }
   }
 
@@ -186,10 +186,10 @@ export class RegistrationComponent {
 
   resetForm(): void {
     this.registrationForm.reset();
-    this.selectedImageSignal.set(null);
-    this.selectedImagePreviewSignal.set(null);
-    this.isEditModeSignal.set(false);
+    this.selectedImage.set(null);
+    this.selectedImagePreview.set(null);
+    this.isEditMode.set(false);
     this.editingCandidateSignal.set(null);
-    this.isLoadingSignal.set(false);
+    this.isLoading.set(false);
   }
 }
