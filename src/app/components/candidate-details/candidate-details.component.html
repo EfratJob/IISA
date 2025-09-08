@@ -24,22 +24,22 @@
 
           <div class="navigation-buttons">
             <button mat-icon-button 
-                    [disabled]="!hasPreviousCandidate()"
-                    (click)="navigateToPrevious()"
-                    matTooltip="מועמד קודם">
-              <mat-icon>navigate_before</mat-icon>
-            </button>
+            [disabled]="!hasNextCandidate()"
+            (click)="navigateToNext()"
+            matTooltip="מועמד הבא">
+      <mat-icon>navigate_next</mat-icon>
+    </button>
             
             <span class="candidate-position">
               {{ currentCandidateIndex() + 1 }} מתוך {{ totalCandidates() }}
             </span>
-            
             <button mat-icon-button 
-                    [disabled]="!hasNextCandidate()"
-                    (click)="navigateToNext()"
-                    matTooltip="מועמד הבא">
-              <mat-icon>navigate_next</mat-icon>
-            </button>
+            [disabled]="!hasPreviousCandidate()"
+            (click)="navigateToPrevious()"
+            matTooltip="מועמד קודם">
+      <mat-icon>navigate_before</mat-icon>
+    </button>
+            
           </div>
         </div>
 

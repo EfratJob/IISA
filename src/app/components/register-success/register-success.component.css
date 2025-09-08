@@ -1,0 +1,96 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: 'Roboto', sans-serif;
+  }
+  
+  .success-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: #0b0c10;
+    position: relative;
+    overflow: hidden;
+    color: white;
+    text-align: center;
+  }
+  
+  .success-card {
+    background-color: rgba(13, 27, 42, 0.9);
+    border: 2px solid #00ffff;
+    padding: 40px 60px;
+    border-radius: 20px;
+    box-shadow: 0 0 30px #00ffff;
+    z-index: 10;
+    animation: popIn 0.6s ease-out;
+  }
+  
+  .success-card h1 {
+    margin-bottom: 20px;
+    color: #ffffff;
+    text-shadow: 0 0 10px #00ffff;
+  }
+  
+  .success-card p {
+    margin-bottom: 30px;
+    font-size: 18px;
+  }
+  
+  button {
+    background-color: #00ffff;
+    color: #0b0c10;
+    font-weight: bold;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: transform 0.3s, box-shadow 0.3s, background-color 0.3s;
+  }
+  
+  button:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 25px #00ffff;
+    background-color: #00d4d4;
+  }
+  
+  /* אנימציה פנימית */
+  @keyframes popIn {
+    0% { transform: scale(0.5); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+  }
+  
+  /* כוכבים ברקע */
+  .stars, .stars2, .stars3 {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background-repeat: repeat;
+    background-size: contain;
+    z-index: 0;
+  }
+  
+  .stars {
+    background-image: url('https://www.transparenttextures.com/patterns/stardust.png');
+    animation: moveStars 100s linear infinite;
+    opacity: 0.6;
+  }
+  
+  .stars2 {
+    background-image: url('https://www.transparenttextures.com/patterns/stardust.png');
+    animation: moveStars 150s linear infinite;
+    opacity: 0.4;
+  }
+  
+  .stars3 {
+    background-image: url('https://www.transparenttextures.com/patterns/stardust.png');
+    animation: moveStars 200s linear infinite;
+    opacity: 0.2;
+  }
+  
+  @keyframes moveStars {
+    from { transform: translateY(0); }
+    to { transform: translateY(-2000px); }
+  }
+  

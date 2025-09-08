@@ -6,6 +6,11 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { RouterModule, RouterOutlet } from '@angular/router';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatStepperModule } from '@angular/material/stepper';
+import { MatCardModule } from '@angular/material/card';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 
 @Component({
   selector: 'app-root',
@@ -16,7 +21,12 @@ import { RouterModule, RouterOutlet } from '@angular/router';
     MatToolbarModule,
     MatButtonModule,
     MatIconModule,
-    MatSidenavModule
+    MatSidenavModule,
+    MatMenuModule,
+    MatStepperModule,
+    MatCardModule,
+    MatFormFieldModule,
+    MatInputModule
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'

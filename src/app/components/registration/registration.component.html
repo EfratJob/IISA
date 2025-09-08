@@ -4,7 +4,6 @@
       <div class="header-content">
         <div class="header-text">
           <mat-card-title>הרשמה לטיסת החלל הישראלית הראשונה</mat-card-title>
-          <mat-card-subtitle>סוכנות החלל הישראלית הדמיונית (IISA)</mat-card-subtitle>
         </div>
       </div>
     </mat-card-header>
@@ -36,7 +35,7 @@
           <div class="form-row">
             <mat-form-field appearance="outline" class="half-width">
               <mat-label>כתובת אימייל</mat-label>
-              <input matInput formControlName="email" type="email" placeholder="example@email.com">
+              <input matInput formControlName="email" type="email">
               <mat-error *ngIf="registrationForm.get('email')?.hasError('required')">
                 כתובת אימייל נדרשת
               </mat-error>
@@ -47,7 +46,7 @@
 
             <mat-form-field appearance="outline" class="half-width">
               <mat-label>מספר טלפון</mat-label>
-              <input matInput formControlName="phoneNumber" placeholder="050-1234567">
+              <input matInput formControlName="phoneNumber">
               <mat-error *ngIf="registrationForm.get('phoneNumber')?.hasError('required')">
                 מספר טלפון נדרש
               </mat-error>

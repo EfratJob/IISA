@@ -146,8 +146,8 @@ export class DashboardComponent {
           }
         },
         scales: {
-          x: { grid: { display: false }, title: { display: true, text: 'גיל' } },
-          y: { beginAtZero: true, title: { display: true, text: 'מספר מועמדים' } }
+          x: { grid: { display: false }, ticks: { color: '#ffffff' }, title: { display: true, text: 'גיל', color: '#ffffff' } },
+          y: { beginAtZero: true, ticks: { color: '#ffffff' }, title: { display: true, text: 'מספר מועמדים', color: '#ffffff' } }
         }
       }
     });

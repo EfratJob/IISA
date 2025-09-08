@@ -4,10 +4,39 @@
       flex-direction: column;
     }
 
+    .cosmic-bg {
+      background-image: url('https://images.unsplash.com/photo-1502134249126-9f3755a50d78?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      position: relative;
+    }
+
+    .overlay {
+      position: fixed;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(0,0,0,0.5), rgba(0,0,0,0.8));
+      z-index: 0;
+    }
+
     .header {
       position: sticky;
       top: 0;
       z-index: 100;
+    }
+
+    .logo-container {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 2px solid #00ffff;
+      box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
     }
 
     .title {
@@ -57,6 +86,37 @@
       overflow-x: hidden;
     }
 
+    .content-wrap {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+      min-height: calc(100vh - 64px);
+    }
+
+    .stepper-card {
+      width: 100%;
+      max-width: 960px;
+      border: 1px solid color-mix(in oklab, var(--neon-cyan, #00FFFF), transparent 70%);
+    }
+
+    .step-content {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .step-content .full { grid-column: 1 / -1; }
+    .step-content .half { grid-column: span 1; }
+
+    .actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 12px;
+      grid-column: 1 / -1;
+    }
+
     .hidden {
       display: none !important;
     }
@@ -69,4 +129,7 @@
       .title {
         font-size: 1rem;
       }
+
+      .content-wrap { padding: 16px; }
+      .step-content { grid-template-columns: 1fr; }
     }

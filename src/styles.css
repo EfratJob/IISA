@@ -2,3 +2,318 @@
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+/* ===== Cosmic Futuristic Theme ===== */
+:root {
+  --cosmic-bg-start: #0b0c10;          /* success dark */
+  --cosmic-bg-end: #0b0c10;            /* flat dark to match success */
+  --text-primary: #ffffff;             /* white for titles/labels/placeholders */
+  --text-muted: #9AA6B2;
+  --neon-cyan: #00FFFF;                /* aqua */
+  --neon-pink: #FF4DFF;
+  --neon-purple: #8A5CFF;
+  --neon-green: #4DFFB5;
+  --card-bg: #0B1422;
+  --card-border: rgba(0, 229, 255, 0.25);
+  --glow-strong: 0 0 24px rgba(0, 229, 255, 0.35);
+  --glow-soft: 0 0 10px rgba(138, 92, 255, 0.25);
+  /* Optional animated background asset (set to your GIF/MP4/WEBM path) */
+}
+
+/* Global background with subtle stars */
+html, body {
+  background: var(--cosmic-bg-start);
+  color: var(--text-primary);
+  text-align: right;
+}
+
+/* Starfield overlays (match success page vibe) */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image: url('https://www.transparenttextures.com/patterns/stardust.png');
+  background-repeat: repeat;
+  background-size: contain;
+  opacity: 0.6;
+  pointer-events: none;
+  z-index: 0;
+  background-position: 0 0;
+  will-change: background-position;
+  animation: starScroll 120s linear infinite;
+}
+
+/* Deeper star layer */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image: url('https://www.transparenttextures.com/patterns/stardust.png');
+  background-repeat: repeat;
+  background-size: contain;
+  opacity: 0.3;
+  pointer-events: none;
+  z-index: 0;
+  background-position: 0 0;
+  will-change: background-position;
+  animation: starScrollSlow 180s linear infinite;
+}
+
+@keyframes starScroll { from { background-position: 0 0; } to { background-position: 0 -2000px; } }
+@keyframes starScrollSlow { from { background-position: 0 0; } to { background-position: 0 -2500px; } }
+
+@media (prefers-reduced-motion: reduce) {
+  body::after { animation: none; }
+  .floaty { animation: none; }
+}
+
+/* Layout base */
+app-root, .app-container { position: relative; z-index: 1; }
+
+/* Typography */
+h1, h2, h3, .heading-glow {
+  color: var(--text-primary);
+  text-shadow:
+    0 0 6px rgba(255,255,255,0.2),
+    0 0 18px rgba(0, 229, 255, 0.25);
+  letter-spacing: 0.5px;
+}
+
+p, span, li, label { color: var(--text-primary); opacity: 0.9; }
+.mat-mdc-form-field .mdc-floating-label { color: var(--text-primary); opacity: 0.9; }
+input::placeholder, textarea::placeholder { color: var(--text-primary); opacity: 0.7; }
+.muted { color: var(--text-muted); }
+small, .text-small, p.small { color: var(--text-primary); opacity: 0.9; text-align: right; }
+.details, .visit-details, .candidate-details { color: var(--text-primary); text-align: right; opacity: 0.9; }
+
+/* Futuristic cards */
+.card-futuristic, .mat-mdc-card {
+  background-color: rgba(13, 27, 42, 0.9);
+  backdrop-filter: blur(6px);
+  border: 2px solid var(--neon-cyan);
+  border-radius: 20px;
+  box-shadow: 0 0 30px rgba(0, 255, 255, 0.35);
+  transition: transform 220ms ease, box-shadow 220ms ease, border-color 220ms ease;
+}
+
+.card-futuristic:hover, .mat-mdc-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--neon-cyan);
+  box-shadow: 0 0 38px rgba(0, 255, 255, 0.5);
+}
+
+/* Neon buttons */
+.btn-neon {
+  --neon-color: var(--neon-cyan);
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 18px;
+  border-radius: 12px;
+  border: 1px solid color-mix(in oklab, var(--neon-color), transparent 65%);
+  background: linear-gradient(180deg, rgba(8, 16, 28, 0.9), rgba(6, 12, 22, 0.9));
+  color: var(--text-primary);
+  text-decoration: none;
+  box-shadow:
+    0 2px 10px rgba(0, 0, 0, 0.5),
+    0 0 14px color-mix(in oklab, var(--neon-color), transparent 80%);
+  transition: transform 160ms ease, box-shadow 180ms ease, background 200ms ease, color 200ms ease;
+}
+
+.btn-neon:hover {
+  transform: translateY(-2px) scale(1.03);
+  box-shadow:
+    0 6px 18px rgba(0, 0, 0, 0.55),
+    0 0 18px color-mix(in oklab, var(--neon-color), transparent 60%),
+    0 0 36px color-mix(in oklab, var(--neon-color), transparent 68%);
+  background: linear-gradient(180deg, rgba(12, 22, 36, 0.95), rgba(8, 16, 28, 0.95));
+}
+
+.btn-neon:active { transform: translateY(0) scale(0.99); }
+
+/* Neon variants */
+.btn-neon--cyan   { --neon-color: var(--neon-cyan); }
+.btn-neon--pink   { --neon-color: var(--neon-pink); }
+.btn-neon--purple { --neon-color: var(--neon-purple); }
+.btn-neon--green  { --neon-color: var(--neon-green); }
+
+/* Subtle glow on focus */
+.btn-neon:focus-visible { outline: none; box-shadow: 0 0 0 3px rgba(0, 229, 255, 0.25), var(--glow-soft); }
+
+/* Floating animation utility */
+@keyframes floaty {
+  0%   { transform: translateY(0); }
+  50%  { transform: translateY(-6px); }
+  100% { transform: translateY(0); }
+}
+
+.floaty {
+  animation: floaty 4.5s ease-in-out infinite;
+}
+
+/* Toolbar and nav polish for Angular Material */
+.mat-toolbar, .mat-mdc-toolbar {
+  --mat-toolbar-container-background-color: #0b0c10 !important;
+  --mat-toolbar-container-text-color: #ffffff !important;
+  background: linear-gradient(180deg, rgba(11, 12, 16, 0.96), rgba(8, 10, 14, 0.96)) !important;
+  color: #ffffff !important;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4), 0 0 18px rgba(0, 255, 255, 0.08);
+  backdrop-filter: blur(6px);
+}
+
+/* Make sidenav container/content transparent so body background is visible */
+.mat-drawer-container, .mat-sidenav-container {
+  --mat-sidenav-container-background-color: transparent !important;
+  background: transparent !important;
+}
+.mat-drawer-content, .mat-sidenav-content {
+  background: transparent !important;
+}
+
+/* Subtitles and secondary text shouldn't be pure white */
+.mat-mdc-card-subtitle, mat-card-subtitle {
+  color: color-mix(in oklab, var(--text-primary), transparent 25%) !important;
+}
+
+/* Links glow slightly on hover */
+a { color: var(--neon-cyan); text-decoration: none; }
+a:hover { text-shadow: 0 0 10px rgba(0, 229, 255, 0.5); }
+
+/* ===== Toolbar Menu / MatMenu ===== */
+.mat-mdc-menu-panel {
+  background: rgba(11, 12, 16, 0.96) !important;
+  border: 1px solid color-mix(in oklab, var(--neon-cyan), transparent 75%);
+  box-shadow: 0 10px 24px rgba(0,0,0,0.6), 0 0 18px rgba(0,255,255,0.12);
+  backdrop-filter: blur(6px);
+}
+.mat-mdc-menu-item { color: var(--text-primary) !important; }
+.mat-mdc-menu-item .mat-icon { color: var(--neon-cyan); }
+.mat-mdc-menu-content { text-align: right; }
+
+/* Right-edge alignment for RTL popups */
+.mat-mdc-menu-panel, .mat-mdc-select-panel { inset-inline-start: auto !important; }
+
+/* ===== Material Select (MDC) - Aqua on Dark ===== */
+.mat-mdc-select-trigger, .mat-mdc-select-value { color: var(--text-primary) !important; }
+.mat-mdc-select-arrow { color: var(--text-primary); }
+.mat-mdc-select-panel { background: rgba(11,12,16,0.98) !important; color: var(--text-primary) !important; }
+.mat-mdc-option { color: var(--text-primary) !important; }
+.mat-mdc-option.mdc-list-item--selected, .mat-mdc-option:hover {
+  background: rgba(0, 255, 255, 0.10) !important;
+}
+
+/* ===== Material Buttons in Success Style ===== */
+.mat-mdc-raised-button, .mat-mdc-unelevated-button {
+  color: #0b0c10 !important;
+  background: #00ffff !important;
+  border: none;
+  box-shadow: 0 0 22px rgba(0, 255, 255, 0.35);
+  transition: transform 200ms ease, box-shadow 220ms ease, background 220ms ease;
+}
+.mat-mdc-stroked-button {
+  --neon-color: var(--neon-cyan);
+  color: var(--text-primary) !important;
+  border-color: color-mix(in oklab, var(--neon-color), transparent 55%) !important;
+  background: linear-gradient(180deg, rgba(12, 20, 34, 0.35), rgba(8, 14, 26, 0.35));
+  transition: transform 160ms ease, box-shadow 180ms ease, background 200ms ease;
+}
+.mat-mdc-raised-button:hover, .mat-mdc-unelevated-button:hover, .mat-mdc-stroked-button:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 25px #00ffff;
+}
+
+/* ===== Registration submit button (aqua background) ===== */
+.submit-btn.mat-mdc-raised-button,
+.submit-btn.mat-mdc-unelevated-button,
+.submit-btn {
+  background: linear-gradient(180deg, rgba(0, 255, 255, 0.95), rgba(0, 205, 205, 0.95)) !important;
+  color: #0b0c10 !important; /* dark text for contrast on aqua */
+  border: 1px solid color-mix(in oklab, #00FFFF, #0b0c10 20%);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35), 0 0 22px rgba(0, 255, 255, 0.35) !important;
+  transform: translateZ(0);
+}
+
+.submit-btn:hover {
+  transform: translateY(-1px) scale(1.03);
+  box-shadow: 0 10px 24px rgba(0,0,0,0.45), 0 0 30px rgba(0,255,255,0.45) !important;
+}
+
+.submit-btn .mat-icon { color: #0b0c10 !important; }
+/* Spinner stroke inside submit button */
+.submit-btn .mat-mdc-progress-spinner circle,
+.submit-btn .mdc-circular-progress__indeterminate-circle-graphic { stroke: #0b0c10 !important; }
+
+/* Ensure full-width on mobile */
+@media (max-width: 768px) {
+  .submit-btn { width: 100%; }
+}
+
+/* ===== Chips (mat-chip) - dark with aqua highlights ===== */
+.mat-mdc-chip-set .mat-mdc-chip {
+  background: linear-gradient(180deg, rgba(12, 20, 34, 0.6), rgba(8, 14, 26, 0.6)) !important;
+  color: var(--text-primary) !important;
+  border: 1px solid color-mix(in oklab, var(--neon-cyan), transparent 70%) !important;
+}
+
+.mat-mdc-chip .mdc-evolution-chip__text-label { color: var(--text-primary) !important; }
+.mat-mdc-chip .mat-icon { color: var(--neon-cyan) !important; }
+
+/* Selected/active chip */
+.mat-mdc-chip.mdc-evolution-chip--selected {
+  background: rgba(0, 255, 255, 0.12) !important;
+  border-color: color-mix(in oklab, var(--neon-cyan), transparent 50%) !important;
+}
+
+/* Disabled states keep dark look */
+.mat-mdc-stroked-button.mat-mdc-button-disabled,
+.mat-mdc-chip.mdc-evolution-chip--disabled {
+  opacity: 0.5;
+  filter: grayscale(0.2);
+}
+
+/* ===== Charts helpers ===== */
+.chart-card .chart-title { color: var(--text-primary); text-align: right; }
+.chart-card { border: 1px solid color-mix(in oklab, var(--neon-cyan), transparent 75%); }
+
+/* ===== Angular Material input fields (MDC) - Aqua look ===== */
+.mat-mdc-form-field .mdc-text-field {
+  border-radius: 12px;
+  background: linear-gradient(180deg, rgba(12, 20, 34, 0.55), rgba(8, 14, 26, 0.55));
+  backdrop-filter: blur(6px);
+  transition: box-shadow 180ms ease, border-color 180ms ease, background 180ms ease;
+  padding-inline: 12px; /* ensure space for floating label in RTL */
+}
+
+/* Outline color */
+.mdc-notched-outline__leading,
+.mdc-notched-outline__notch,
+.mdc-notched-outline__trailing { border-color: color-mix(in oklab, var(--neon-cyan), transparent 72%) !important; }
+
+/* Label color */
+.mat-mdc-form-field .mdc-floating-label { color: var(--text-primary) !important; opacity: 0.85; }
+
+/* Text and placeholder */
+.mat-mdc-input-element { color: var(--text-primary) !important; padding-block: 10px; }
+.mat-mdc-input-element::placeholder { color: var(--text-primary); opacity: 0.6; }
+
+/* Focus glow */
+.mat-mdc-form-field.mdc-text-field--focused .mdc-notched-outline__leading,
+.mat-mdc-form-field.mdc-text-field--focused .mdc-notched-outline__notch,
+.mat-mdc-form-field.mdc-text-field--focused .mdc-notched-outline__trailing {
+  border-color: color-mix(in oklab, var(--neon-cyan), transparent 40%) !important;
+}
+
+.mat-mdc-form-field.mdc-text-field--focused .mdc-text-field {
+  box-shadow: 0 0 0 3px rgba(0, 255, 255, 0.18), 0 0 20px rgba(0, 255, 255, 0.24);
+}
+
+/* RTL alignment: float label and input text from the right */
+.mat-mdc-form-field .mdc-floating-label, .mat-mdc-input-element { text-align: right; }
+
+/* Increase notch padding so label doesn't collide with value */
+.mdc-notched-outline__notch { padding-inline-start: 8px; padding-inline-end: 8px; }
+
+/* Helper/Hint text */
+.mat-mdc-form-field-hint, .mat-mdc-form-field-error { color: var(--text-primary); opacity: 0.75; }
