@@ -2,8 +2,13 @@ import { Routes } from '@angular/router';
 
 export const routes: Routes = [ {
     path: '',
-    redirectTo: '/registration',
+    redirectTo: '/home',
     pathMatch: 'full'
+  },
+{
+    path: 'home',
+    loadComponent: () => import('./components/home/home.component').then(m => m.HomeComponent),
+    title: 'דף הבית' 
   },
   {
     path: 'registration',

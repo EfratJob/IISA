@@ -11,6 +11,7 @@
         <nav class="desktop-nav" [class.hidden]="isMobile()">
           <a mat-button routerLink="/registration" routerLinkActive="active">הרשמה</a>
           <a mat-button routerLink="/dashboard" routerLinkActive="active">דשבורד</a>
+          <a mat-button routerLink="/home" routerLinkActive="active">דף הבית</a>
         </nav>
         <!-- Mobile MatMenu Trigger -->
         <button mat-icon-button [matMenuTriggerFor]="mobileMenu" [class.hidden]="!isMobile()">
@@ -24,6 +25,10 @@
           <button mat-menu-item [routerLink]="['/dashboard']">
             <mat-icon>dashboard</mat-icon>
             <span>דשבורד</span>
+          </button>
+          <button mat-menu-item [routerLink]="['/']">
+            <mat-icon>home</mat-icon>
+            <span>דף הבית</span>
           </button>
         </mat-menu>
       </mat-toolbar>
