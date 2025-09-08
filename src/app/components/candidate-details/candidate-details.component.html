@@ -1,0 +1,157 @@
+ <div class="candidate-detail-container">
+      <div *ngIf="!candidate()" class="not-found">
+        <mat-card>
+          <mat-card-content>
+            <div class="not-found-content">
+              <mat-icon class="not-found-icon">person_off</mat-icon>
+              <h2>מועמד לא נמצא</h2>
+              <p>המועמד המבוקש לא נמצא במערכת</p>
+              <button mat-raised-button color="primary" routerLink="/dashboard">
+                <mat-icon>arrow_back</mat-icon>
+                חזור לדשבורד
+              </button>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+
+      <div *ngIf="candidate()" class="candidate-detail">
+        <div class="navigation-bar">
+          <button mat-stroked-button routerLink="/dashboard">
+            <mat-icon>arrow_back</mat-icon>
+            חזור לרשימה
+          </button>
+
+          <div class="navigation-buttons">
+            <button mat-icon-button 
+                    [disabled]="!hasPreviousCandidate()"
+                    (click)="navigateToPrevious()"
+                    matTooltip="מועמד קודם">
+              <mat-icon>navigate_before</mat-icon>
+            </button>
+            
+            <span class="candidate-position">
+              {{ currentCandidateIndex() + 1 }} מתוך {{ totalCandidates() }}
+            </span>
+            
+            <button mat-icon-button 
+                    [disabled]="!hasNextCandidate()"
+                    (click)="navigateToNext()"
+                    matTooltip="מועמד הבא">
+              <mat-icon>navigate_next</mat-icon>
+            </button>
+          </div>
+        </div>
+
+        <!-- Candidate Profile -->
+        <mat-card class="profile-card">
+          <mat-card-content>
+            <div class="profile-header">
+              <div class="profile-image-container">
+                <img *ngIf="candidate()?.profileImage" 
+                     [src]="candidate()?.profileImage" 
+                     [alt]="candidate()?.fullName"
+                     class="profile-image">
+                <mat-icon *ngIf="!candidate()?.profileImage" class="default-profile-icon">
+                  account_circle
+                </mat-icon>
+              </div>
+              
+              <div class="profile-info">
+                <h1>{{ candidate()?.fullName }}</h1>
+                <div class="profile-meta">
+                  <mat-chip-set>
+                    <mat-chip *ngIf="candidate()?.canEdit" color="accent" selected>
+                      <mat-icon>edit</mat-icon>
+                      ניתן לעריכה
+                    </mat-chip>
+                    <mat-chip>
+                      <mat-icon>calendar_today</mat-icon>
+                      נרשם: {{ candidate()?.submissionDate| date:'dd/MM/yyyy'   }}
+                    </mat-chip>
+                    <mat-chip *ngIf="candidate()?.lastEditDate">
+                      <mat-icon>update</mat-icon>
+                      עודכן: {{ candidate()?.lastEditDate | date:'dd/MM/yyyy'   }}
+                    </mat-chip>
+                  </mat-chip-set>
+                </div>
+              </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+
+        <mat-card class="info-card">
+          <mat-card-header>
+            <mat-card-title>
+              <mat-icon>contact_mail</mat-icon>
+              פרטי יצירת קשר
+            </mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <div class="info-grid">
+              <div class="info-item">
+                <mat-icon>email</mat-icon>
+                <div class="info-content">
+                  <label>אימייל:</label>
+                  <span>{{ candidate()?.email }}</span>
+                </div>
+              </div>
+              
+              <div class="info-item">
+                <mat-icon>phone</mat-icon>
+                <div class="info-content">
+                  <label>טלפון:</label>
+                  <span>{{ candidate()?.phoneNumber }}</span>
+                </div>
+              </div>
+              
+              <div class="info-item">
+                <mat-icon>cake</mat-icon>
+                <div class="info-content">
+                  <label>גיל:</label>
+                  <span>{{ candidate()?.age }}</span>
+                </div>
+              </div>
+              
+              <div class="info-item">
+                <mat-icon>location_city</mat-icon>
+                <div class="info-content">
+                  <label>עיר מגורים:</label>
+                  <span>{{ candidate()?.city }}</span>
+                </div>
+              </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+
+        <mat-card class="info-card">
+          <mat-card-header>
+            <mat-card-title>
+              <mat-icon>sports_esports</mat-icon>
+              תחביבים
+            </mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <div class="text-content">
+              <p>{{ candidate()?.hobbies }}</p>
+            </div>
+          </mat-card-content>
+        </mat-card>
+
+        <!-- Why Perfect Candidate -->
+        <mat-card class="info-card">
+          <mat-card-header>
+            <mat-card-title>
+              <mat-icon>star</mat-icon>
+              למה אני המועמד המושלם
+            </mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <div class="text-content">
+              <p class="perfect-candidate-text">{{ candidate()?.whyPerfectCandidate }}</p>
+            </div>
+          </mat-card-content>
+        </mat-card>
+       
+      </div>
+    </div>
