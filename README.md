@@ -1,34 +1,72 @@
-# Iisa
+# 🚀 IISA -- Israeli Imaginary Space Agency
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.15.
+Welcome to **IISA** -- the registration for Israel's first imaginary
+space agency 🇮🇱✨.\
+This is a frontend project built with **Angular**, allowing brave
+candidates (like you!) to apply to be part of our interstellar adventure
+🪐👩‍🚀👨‍🚀.
 
-## מבנה הפרויקט
+------------------------------------------------------------------------
 
-/src/app/components – Components
+## 📂 Project Structure
 
-/src/app/services – Services
+    /src/app/components   – Components  
+    /src/app/services     – Services  
+    /src/app/models       – Models  
+    /src/assets           – Images  
 
-/src/app/models – Models
+------------------------------------------------------------------------
 
-/src/assets – Images
+## 🛠️ Installation
 
-## Development server
+1.  Make sure you have [Node.js](https://nodejs.org/) installed (LTS
+    version recommended).\
 
-To start a local development server, run:
+2.  Install Angular CLI (if not installed yet):
 
-```bash
-ng serve
-```
+    ``` bash
+    npm install -g @angular/cli
+    ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+3.  Install project dependencies:
 
+    ``` bash
+    npm install
+    ```
 
-## Building
+------------------------------------------------------------------------
+## 🏗️ Building
 
-To build the project run:
+To build the project for production:
 
-```bash
+``` bash
 ng build
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+The optimized build files will be stored in the `dist/` folder ⚡.
+
+
+
+------------------------------------------------------------------------
+
+## ▶️ Development Server
+
+To start a local development server:
+
+``` bash
+ng serve
+```
+
+Once the server is running, open your browser at:\
+<http://localhost:4200/>
+
+The application will automatically reload whenever you modify the source
+code 💡.
+
+------------------------------------------------------------------------
+
+## 🌌 Ready for Launch?
+
+Now it's your chance to join our adventurous journey beyond the
+atmosphere.\
+Apply, launch 🚀, and become a pioneer in our imaginary space mission!
