@@ -10,7 +10,7 @@ export interface Candidate {
   profileImage?: string;
   submissionDate: Date;
   lastEditDate?: Date;
-  canEdit: boolean; // Based on 3-day rule
+  canEdit: boolean;
 }
 
 export interface CandidateFormData {
@@ -30,7 +30,6 @@ export interface DashboardStats {
   registrationRate: number;
    ageBreakdown:any[];
 }
-
 
 export interface VisitStats {
   totalVisits: number;

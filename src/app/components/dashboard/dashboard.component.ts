@@ -30,7 +30,9 @@ import { DashboardStats } from '../../models/candidate';
     MatPaginatorModule,
     MatGridListModule],
   templateUrl: './dashboard.component.html',
-  styleUrl: './dashboard.component.css'
+  styleUrl: './dashboard.component.css',
+  standalone: true,
+
 })
 export class DashboardComponent {
 

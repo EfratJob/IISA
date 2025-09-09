@@ -8,7 +8,7 @@ import { RouterModule } from '@angular/router';
   imports: [MatIconModule, RouterModule],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
-   
+  standalone: true,
 })
 export class HomeComponent {
 

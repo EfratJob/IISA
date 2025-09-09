@@ -25,7 +25,8 @@ import { DataService } from '../../services/data.service';
     MatProgressSpinnerModule,
     MatSnackBarModule
   ], templateUrl: './add-edit-register.component.html',
-  styleUrl: './add-edit-register.component.css'
+  styleUrl: './add-edit-register.component.css',
+    standalone: true,
 })
 export class AddEditRegisterComponent {
   loginForm!: FormGroup;

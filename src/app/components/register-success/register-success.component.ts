@@ -8,14 +8,7 @@ import { routes } from '../../app.routes';
   imports: [RouterModule],
   templateUrl: './register-success.component.html',
   styleUrl: './register-success.component.css',
-  animations: [
-    trigger('fadeIn', [
-      transition(':enter', [
-        style({ opacity: 0 }),
-        animate('800ms ease-out', style({ opacity: 1 }))
-      ])
-    ])
-  ]
+  standalone: true,
 })
 export class RegisterSuccessComponent {
 

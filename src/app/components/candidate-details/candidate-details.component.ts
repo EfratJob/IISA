@@ -10,7 +10,8 @@ import { DataService } from '../../services/data.service';
 
 @Component({
   selector: 'app-candidate-details',
-  imports: [   CommonModule,
+  standalone: true,
+  imports: [CommonModule,
     RouterModule,
     MatCardModule,
     MatButtonModule,
@@ -21,48 +22,45 @@ import { DataService } from '../../services/data.service';
   styleUrl: './candidate-details.component.css'
 })
 export class CandidateDetailsComponent {
- private candidateIdSignal = signal<string>('');
-  readonly candidateId = this.candidateIdSignal.asReadonly();
   
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private dataService: DataService
-  ) {}
-  readonly candidate = computed(() => {
+  ) { }
+  
+  candidateId = signal<string>('');
+  
+   candidate = computed(() => {
     const id = this.candidateId();
     return id ? this.dataService.getCandidateById(id) : undefined;
   });
 
-  allCandidates!: typeof this.dataService.candidatesList;
-  
+
   readonly currentCandidateIndex = computed(() => {
-    const candidates = this.allCandidates();
+    const candidates = this.dataService.candidatesList();
     const candidate = this.candidate();
     return candidate ? candidates.findIndex(c => c.id === candidate.id) : -1;
   });
 
-  readonly totalCandidates = computed(() => this.allCandidates().length);
+  readonly totalCandidates = computed(() => this.dataService.candidatesList().length);
 
   readonly hasPreviousCandidate = computed(() => this.currentCandidateIndex() > 0);
-  
-  readonly hasNextCandidate = computed(() => 
+
+  readonly hasNextCandidate = computed(() =>
     this.currentCandidateIndex() < this.totalCandidates() - 1 && this.currentCandidateIndex() >= 0
   );
 
-
-
   ngOnInit(): void {
-    this.allCandidates = this.dataService.candidatesList;
     this.route.params.subscribe(params => {
-      this.candidateIdSignal.set(params['id']);
+      this.candidateId.set(params['id']);
     });
   }
 
   navigateToPrevious(): void {
     const currentIndex = this.currentCandidateIndex();
     if (currentIndex > 0) {
-      const previousCandidate = this.allCandidates()[currentIndex - 1];
+      const previousCandidate = this.dataService.candidatesList()[currentIndex - 1];
       this.router.navigate(['/candidate', previousCandidate.id]);
     }
   }
@@ -71,13 +69,8 @@ export class CandidateDetailsComponent {
     const currentIndex = this.currentCandidateIndex();
     const totalCandidates = this.totalCandidates();
     if (currentIndex >= 0 && currentIndex < totalCandidates - 1) {
-      const nextCandidate = this.allCandidates()[currentIndex + 1];
+      const nextCandidate = this.dataService.candidatesList()[currentIndex + 1];
       this.router.navigate(['/candidate', nextCandidate.id]);
     }
   };
-  
-
-  printCandidate(): void {
-    window.print();
-  }
 }

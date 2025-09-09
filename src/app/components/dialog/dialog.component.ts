@@ -4,22 +4,24 @@ import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/materia
 
 @Component({
   selector: 'app-dialog',
-  imports: [    MatDialogModule,
+  imports: [MatDialogModule,
     MatButtonModule],
   templateUrl: './dialog.component.html',
-  styleUrl: './dialog.component.css'
+  styleUrl: './dialog.component.css',
+  standalone: true,
+
 })
 export class DialogComponent {
   constructor(
     public dialogRef: MatDialogRef<DialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { message: string }
-  ) {}
+  ) { }
 
   onConfirm(): void {
-    this.dialogRef.close(true); 
+    this.dialogRef.close(true);
   }
 
   onCancel(): void {
-    this.dialogRef.close(false); 
+    this.dialogRef.close(false);
   }
 }

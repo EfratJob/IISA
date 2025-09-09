@@ -29,10 +29,11 @@ import { MatInputModule } from '@angular/material/input';
     MatInputModule
   ],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  styleUrl: './app.component.css',
+  standalone: true,
 })
 export class AppComponent {
-  constructor(  private breakpointObserver:BreakpointObserver) {}
+  constructor(private breakpointObserver: BreakpointObserver) { }
 
   sidenavOpen = signal(false);
 

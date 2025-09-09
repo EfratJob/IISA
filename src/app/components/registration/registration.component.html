@@ -40,8 +40,8 @@
                 כתובת אימייל נדרשת
               </mat-error>
               <mat-error *ngIf="registrationForm.get('email')?.hasError('pattern')">
-    כתובת אימייל לא תקינה
-  </mat-error>
+                כתובת אימייל לא תקינה
+              </mat-error>
             </mat-form-field>
 
             <mat-form-field appearance="outline" class="half-width">
@@ -135,8 +135,10 @@
             <mat-icon *ngIf="!isLoading()">rocket_launch</mat-icon>
             {{ isEditMode() ? 'עדכן פרטים' : 'הרשם לטיסה' }}
           </button>
-
-          <button *ngIf="isEditMode()" mat-button type="button" (click)="deleteItem()" class="cancel-btn">
+          <button *ngIf="!isEditMode()" mat-button type="button" (click)="cancel()" >
+            ביטול
+          </button>
+          <button *ngIf="isEditMode()" mat-button type="button" (click)="deleteCandidate()" class="cancel-btn">
             מחק
           </button>
         </div>

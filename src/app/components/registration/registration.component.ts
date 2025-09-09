@@ -29,7 +29,8 @@ import { DialogComponent } from '../dialog/dialog.component';
     MatIconModule,
     MatStepperModule
   ], templateUrl: './registration.component.html',
-  styleUrl: './registration.component.css'
+  styleUrl: './registration.component.css',
+  standalone: true,
 })
 export class RegistrationComponent {
   registrationForm!: FormGroup;
@@ -46,7 +47,7 @@ export class RegistrationComponent {
     private dataService: DataService,
     private snackBar: MatSnackBar,
     private router: Router,
-  private dialog: MatDialog) { }
+    private dialog: MatDialog) { }
 
 
   ngOnInit(): void {
@@ -57,8 +58,7 @@ export class RegistrationComponent {
   private initializeForm(): void {
     this.registrationForm = this.fb.group({
       fullName: ['', [Validators.required, Validators.minLength(2)]],
-      email: ['', [Validators.required, Validators.email,  Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)
-]],
+      email: ['', [Validators.required, Validators.email, Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)]],
       phoneNumber: ['', [Validators.required, Validators.pattern(/^[0-9\-\+\s\(\)]+$/)]],
       age: ['', [Validators.required, Validators.min(18), Validators.max(80)]],
       city: ['', [Validators.required]],
@@ -129,7 +129,7 @@ export class RegistrationComponent {
     this.selectedImagePreview.set(null);
   }
 
-  deleteItem() {
+  deleteCandidate() {
     const dialogRef = this.dialog.open(DialogComponent, {
       width: '350px',
       data: { message: 'את/ה בטוח/ה שברצונך למחוק?' }
@@ -145,7 +145,7 @@ export class RegistrationComponent {
         });
         this.resetForm();
         this.router.navigate(['/']);
-      } 
+      }
     });
   }
 
@@ -170,7 +170,7 @@ export class RegistrationComponent {
                 horizontalPosition: 'center',
                 verticalPosition: 'top'
               });
-            this.router.navigate(['/register-success']);
+              this.router.navigate(['/register-success']);
 
             } else {
               throw new Error('לא ניתן לעדכן את הפרטים');
@@ -206,7 +206,7 @@ export class RegistrationComponent {
     }
   }
 
-  cancelEdit(): void {
+  cancel(): void {
     this.resetForm();
   }
 
