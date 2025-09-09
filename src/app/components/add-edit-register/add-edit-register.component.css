@@ -174,7 +174,6 @@
       opacity: 0.9;
     }
 
-    /* Mobile Responsiveness */
     @media (max-width: 768px) {
       .registration-container {
         padding: 10px;
