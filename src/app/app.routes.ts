@@ -16,6 +16,11 @@ export const routes: Routes = [ {
     title: 'הרשמה לטיסת החלל'
   },
   {
+    path: 'add-edit-register',
+    loadComponent: () => import('./components/add-edit-register/add-edit-register.component').then(m => m.AddEditRegisterComponent),
+    title: 'עריכת מועמדות'
+  },
+  {
     path: 'dashboard',
     loadComponent: () => import('./components/dashboard/dashboard.component').then(m => m.DashboardComponent),
     title: 'דשבורד ניהול'
@@ -32,5 +37,5 @@ export const routes: Routes = [ {
   },
   {
     path: '**',
-    redirectTo: '/registration'
+    redirectTo: '/home'
   }];

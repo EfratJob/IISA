@@ -1,0 +1,8 @@
+<h2 mat-dialog-title>אישור פעולה</h2>
+<mat-dialog-content>
+  {{ data.message }}
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onCancel()">ביטול</button>
+  <button mat-raised-button color="warn" (click)="onConfirm()">אישור</button>
+</mat-dialog-actions>

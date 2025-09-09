@@ -1,0 +1,48 @@
+ <div class="registration-container">
+     <mat-card class="registration-card">
+        <mat-card-header>
+          <div class="header-content">
+            <div class="header-text">
+              <mat-card-title>כניסה למועמד קיים</mat-card-title>
+              <mat-card-subtitle>הזן את כתובת המייל שלך לגישה לפרטי ההרשמה</mat-card-subtitle>
+            </div>
+          </div>
+        </mat-card-header>
+
+        <mat-card-content>
+          <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="registration-form">
+             <div class="form-row">
+            <mat-form-field appearance="outline" class="half-width">
+              <mat-label>כתובת אימייל</mat-label>
+              <input matInput formControlName="email" type="email">
+              <mat-error *ngIf="loginForm.get('email')?.hasError('required')">
+                כתובת אימייל נדרשת
+              </mat-error>
+              <mat-error *ngIf="loginForm.get('email')?.hasError('email')">
+                כתובת אימייל לא תקינה
+              </mat-error>
+            </mat-form-field>
+
+            
+          </div>
+
+            <div class="form-actions">
+
+
+
+              <button mat-raised-button 
+                      color="primary" 
+                      type="submit" 
+                      [disabled]="!loginForm.valid || isLoading()"
+                      class="submit-btn">
+                <mat-spinner *ngIf="isLoading()" diameter="20" class="spinner"></mat-spinner>
+                <mat-icon *ngIf="!isLoading()">search</mat-icon>
+                <span>חפש הרשמה</span>
+              </button>
+
+             
+            </div>
+          </form>
+        </mat-card-content>
+      </mat-card>     
+    </div>

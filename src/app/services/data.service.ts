@@ -1,5 +1,5 @@
 import { computed, Injectable, signal } from '@angular/core';
-import { BehaviorSubject, from, map, Observable, of } from 'rxjs';
+import {  from, map, Observable, of } from 'rxjs';
 import { Candidate, VisitStats, DashboardStats, CandidateFormData } from '../models/candidate';
 
 @Injectable({
@@ -75,6 +75,8 @@ export class DataService {
   }
 
   addCandidate(formData: CandidateFormData): Observable<string> {
+                localStorage.removeItem(this.CURRENT_USER_KEY);
+
     const id = this.generateId();
 
     let profileImage$: Observable<string | undefined>;
@@ -109,7 +111,7 @@ export class DataService {
           registrations: stats.registrations + 1
         });
 
-        localStorage.setItem(this.CURRENT_USER_KEY, id);
+        // localStorage.setItem(this.CURRENT_USER_KEY, id);
 
         this.saveData();
         return id;
@@ -118,6 +120,8 @@ export class DataService {
   }
 
   updateCandidate(id: string, formData: CandidateFormData): Observable<boolean> {
+            localStorage.removeItem(this.CURRENT_USER_KEY);
+
     const candidates = this.candidatesList();
     const candidateIndex = candidates.findIndex(c => c.id === id);
 
@@ -162,6 +166,27 @@ export class DataService {
         return true;
       })
     );
+  }
+  saveId(id: string): void {
+         localStorage.setItem(this.CURRENT_USER_KEY, id);
+
+  }
+
+  removeCurrentUserCandidate(): void {
+    const currentUserId = localStorage.getItem(this.CURRENT_USER_KEY);
+    if (!currentUserId) return;
+    const candidates = this.candidatesList();
+    const updatedCandidates = candidates.filter(c => c.id !== currentUserId);
+    if (updatedCandidates.length !== candidates.length) {
+      this.candidatesList.set(updatedCandidates);
+      const stats = this.visitStats();
+      this.visitStats.set({
+        ...stats,
+        registrations: Math.max(0, stats.registrations - 1)
+      });
+      this.saveData();
+      localStorage.removeItem(this.CURRENT_USER_KEY);
+    }
   }
 
   getCurrentUserCandidate(): Candidate | null {
@@ -211,5 +236,9 @@ export class DataService {
     setInterval(() => {
       this.loadData();
     }, 5000);
+  }
+
+  findCandidateByEmail(email: string): Candidate | undefined {
+    return this.candidatesList().find(c => c.email.toLowerCase() === email.toLowerCase());
   }
 }

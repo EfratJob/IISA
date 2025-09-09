@@ -12,6 +12,8 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { Candidate, CandidateFormData } from '../../models/candidate';
 import { DataService } from '../../services/data.service';
 import { Router } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogComponent } from '../dialog/dialog.component';
 
 @Component({
   selector: 'app-registration',
@@ -33,7 +35,7 @@ export class RegistrationComponent {
   registrationForm!: FormGroup;
 
   isLoading = signal(false);
-   isEditMode = signal(false);
+  isEditMode = signal(false);
   selectedImagePreview = signal<string | null>(null);
   private selectedImage = signal<File | null>(null);
   private editingCandidateSignal = signal<Candidate | null>(null);
@@ -43,7 +45,8 @@ export class RegistrationComponent {
     private fb: FormBuilder,
     private dataService: DataService,
     private snackBar: MatSnackBar,
-    private router: Router) { }
+    private router: Router,
+  private dialog: MatDialog) { }
 
 
   ngOnInit(): void {
@@ -125,7 +128,27 @@ export class RegistrationComponent {
     this.selectedImagePreview.set(null);
   }
 
-   onSubmit() {
+  deleteItem() {
+    const dialogRef = this.dialog.open(DialogComponent, {
+      width: '350px',
+      data: { message: 'את/ה בטוח/ה שברצונך למחוק?' }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.dataService.removeCurrentUserCandidate();
+        this.snackBar.open('המועמד נמחק בהצלחה', 'סגור', {
+          duration: 3000,
+          horizontalPosition: 'center',
+          verticalPosition: 'top'
+        });
+        this.resetForm();
+        this.router.navigate(['/']);
+      } 
+    });
+  }
+
+  onSubmit() {
     if (!this.registrationForm.valid) return;
 
     this.isLoading.set(true);
@@ -146,6 +169,8 @@ export class RegistrationComponent {
                 horizontalPosition: 'center',
                 verticalPosition: 'top'
               });
+            this.router.navigate(['/register-success']);
+
             } else {
               throw new Error('לא ניתן לעדכן את הפרטים');
             }
@@ -154,7 +179,7 @@ export class RegistrationComponent {
 
         }
       } else {
-         this.dataService.addCandidate(formData).subscribe(success => {
+        this.dataService.addCandidate(formData).subscribe(success => {
           if (success) {
             this.snackBar.open('ההרשמה בוצעה בהצלחה!', 'סגור', {
               duration: 3000,
@@ -166,7 +191,7 @@ export class RegistrationComponent {
           } else {
             throw new Error('לא ניתן להוסיף את המועמד');
           }
-         })
+        })
       }
     } catch (error) {
       this.snackBar.open('שגיאה בשמירת הנתונים. נסה שוב.', 'סגור', {
