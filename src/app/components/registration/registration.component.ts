@@ -11,7 +11,7 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatStepperModule } from '@angular/material/stepper';
 import { Candidate, CandidateFormData } from '../../models/candidate';
 import { DataService } from '../../services/data.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogComponent } from '../dialog/dialog.component';
 
@@ -27,7 +27,8 @@ import { DialogComponent } from '../dialog/dialog.component';
     MatSnackBarModule,
     MatProgressSpinnerModule,
     MatIconModule,
-    MatStepperModule
+    MatStepperModule,
+    RouterModule
   ], templateUrl: './registration.component.html',
   styleUrl: './registration.component.css',
   standalone: true,
@@ -38,19 +39,25 @@ export class RegistrationComponent {
   isLoading = signal(false);
   isEditMode = signal(false);
   selectedImagePreview = signal<string | null>(null);
+  candidateId = signal<string | null>(null);
   private selectedImage = signal<File | null>(null);
   private editingCandidateSignal = signal<Candidate | null>(null);
 
-
   constructor(
+    private route: ActivatedRoute,
     private fb: FormBuilder,
     private dataService: DataService,
     private snackBar: MatSnackBar,
     private router: Router,
-    private dialog: MatDialog) { }
+    private dialog: MatDialog) {
+
+  }
 
 
   ngOnInit(): void {
+    this.route.params.subscribe(params => {
+      this.candidateId.set(params['id']);
+    });
     this.initializeForm();
     this.checkForExistingCandidate();
   }
@@ -68,7 +75,7 @@ export class RegistrationComponent {
   }
 
   private checkForExistingCandidate(): void {
-    const existingCandidate = this.dataService.getCurrentUserCandidate();
+    const existingCandidate = this.dataService.getCurrentUserCandidate(this.candidateId());
     if (existingCandidate && existingCandidate.canEdit) {
       this.loadCandidateForEdit(existingCandidate);
     }
@@ -137,7 +144,7 @@ export class RegistrationComponent {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.dataService.removeCurrentUserCandidate();
+        this.dataService.removeCurrentUserCandidate(this.candidateId());
         this.snackBar.open('המועמד נמחק בהצלחה', 'סגור', {
           duration: 3000,
           horizontalPosition: 'center',
@@ -208,6 +215,7 @@ export class RegistrationComponent {
 
   cancel(): void {
     this.resetForm();
+    this.router.navigate(['/']);
   }
 
   resetForm(): void {

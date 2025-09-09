@@ -53,10 +53,6 @@ export class AddEditRegisterComponent {
     });
   }
 
-
-
-
-
   onSubmit(): void {
     if (!this.loginForm.valid) {
       this.markFormGroupTouched();
@@ -98,8 +94,7 @@ export class AddEditRegisterComponent {
         panelClass: ['success-snackbar']
       });
 
-      this.dataService.saveId(candidate.id);
-        this.router.navigate(['/registration']);
+        this.router.navigate(['/registration',candidate.id]);
 
     } catch (error) {
       console.error('Error during login:', error);

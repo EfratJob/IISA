@@ -9,7 +9,6 @@ import { Candidate, VisitStats, DashboardStats, CandidateFormData } from '../mod
 export class DataService {
   private readonly STORAGE_KEY = 'iisa_candidates';
   private readonly VISITS_KEY = 'iisa_visits';
-  private readonly CURRENT_USER_KEY = 'iisa_current_user';
 
   candidatesList = signal<Candidate[]>([]);
   visitStats = signal<VisitStats>({ totalVisits: 0, registrations: 0 });
@@ -75,7 +74,6 @@ export class DataService {
   }
 
   addCandidate(formData: CandidateFormData): Observable<string> {
-    localStorage.removeItem(this.CURRENT_USER_KEY);
 
     const id = this.generateId();
 
@@ -118,7 +116,6 @@ export class DataService {
   }
 
   updateCandidate(id: string, formData: CandidateFormData): Observable<boolean> {
-    localStorage.removeItem(this.CURRENT_USER_KEY);
 
     const candidates = this.candidatesList();
     const candidateIndex = candidates.findIndex(c => c.id === id);
@@ -166,12 +163,9 @@ export class DataService {
     );
   }
 
-  saveId(id: string): void {
-    localStorage.setItem(this.CURRENT_USER_KEY, id);
-  }
 
-  removeCurrentUserCandidate(): void {
-    const currentUserId = localStorage.getItem(this.CURRENT_USER_KEY);
+
+  removeCurrentUserCandidate(currentUserId: string | null): void {
     if (!currentUserId) return;
     const candidates = this.candidatesList();
     const updatedCandidates = candidates.filter(c => c.id !== currentUserId);
@@ -183,12 +177,10 @@ export class DataService {
         registrations: Math.max(0, stats.registrations - 1)
       });
       this.saveData();
-      localStorage.removeItem(this.CURRENT_USER_KEY);
     }
   }
 
-  getCurrentUserCandidate(): Candidate | null {
-    const currentUserId = localStorage.getItem(this.CURRENT_USER_KEY);
+  getCurrentUserCandidate(currentUserId: string | null): Candidate | null {
     if (!currentUserId) return null;
 
     return this.candidatesList().find(c => c.id === currentUserId) || null;
