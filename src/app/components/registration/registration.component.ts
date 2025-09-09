@@ -57,7 +57,8 @@ export class RegistrationComponent {
   private initializeForm(): void {
     this.registrationForm = this.fb.group({
       fullName: ['', [Validators.required, Validators.minLength(2)]],
-      email: ['', [Validators.required, Validators.email]],
+      email: ['', [Validators.required, Validators.email,  Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)
+]],
       phoneNumber: ['', [Validators.required, Validators.pattern(/^[0-9\-\+\s\(\)]+$/)]],
       age: ['', [Validators.required, Validators.min(18), Validators.max(80)]],
       city: ['', [Validators.required]],

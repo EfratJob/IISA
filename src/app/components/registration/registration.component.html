@@ -39,9 +39,9 @@
               <mat-error *ngIf="registrationForm.get('email')?.hasError('required')">
                 כתובת אימייל נדרשת
               </mat-error>
-              <mat-error *ngIf="registrationForm.get('email')?.hasError('email')">
-                כתובת אימייל לא תקינה
-              </mat-error>
+              <mat-error *ngIf="registrationForm.get('email')?.hasError('pattern')">
+    כתובת אימייל לא תקינה
+  </mat-error>
             </mat-form-field>
 
             <mat-form-field appearance="outline" class="half-width">

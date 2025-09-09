@@ -1,5 +1,5 @@
 import { computed, Injectable, signal } from '@angular/core';
-import {  from, map, Observable, of } from 'rxjs';
+import { from, map, Observable, of } from 'rxjs';
 import { Candidate, VisitStats, DashboardStats, CandidateFormData } from '../models/candidate';
 
 @Injectable({
@@ -75,7 +75,7 @@ export class DataService {
   }
 
   addCandidate(formData: CandidateFormData): Observable<string> {
-                localStorage.removeItem(this.CURRENT_USER_KEY);
+    localStorage.removeItem(this.CURRENT_USER_KEY);
 
     const id = this.generateId();
 
@@ -120,7 +120,7 @@ export class DataService {
   }
 
   updateCandidate(id: string, formData: CandidateFormData): Observable<boolean> {
-            localStorage.removeItem(this.CURRENT_USER_KEY);
+    localStorage.removeItem(this.CURRENT_USER_KEY);
 
     const candidates = this.candidatesList();
     const candidateIndex = candidates.findIndex(c => c.id === id);
@@ -168,7 +168,7 @@ export class DataService {
     );
   }
   saveId(id: string): void {
-         localStorage.setItem(this.CURRENT_USER_KEY, id);
+    localStorage.setItem(this.CURRENT_USER_KEY, id);
 
   }
 
