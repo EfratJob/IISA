@@ -111,8 +111,6 @@ export class DataService {
           registrations: stats.registrations + 1
         });
 
-        // localStorage.setItem(this.CURRENT_USER_KEY, id);
-
         this.saveData();
         return id;
       })
@@ -167,9 +165,9 @@ export class DataService {
       })
     );
   }
+
   saveId(id: string): void {
     localStorage.setItem(this.CURRENT_USER_KEY, id);
-
   }
 
   removeCurrentUserCandidate(): void {

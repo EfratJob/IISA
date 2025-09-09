@@ -101,8 +101,6 @@ export class DashboardComponent {
     return Array.from(cities).sort();
   });
 
-
-
   ngOnDestroy(): void {
     if (this.ageChart) {
       this.ageChart.destroy();

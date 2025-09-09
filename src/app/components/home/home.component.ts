@@ -8,14 +8,7 @@ import { RouterModule } from '@angular/router';
   imports: [MatIconModule, RouterModule],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
-   animations: [
-    trigger('fadeIn', [
-      transition(':enter', [
-        style({ opacity: 0 }),
-        animate('1000ms ease-out', style({ opacity: 1 }))
-      ])
-    ])
-  ]
+   
 })
 export class HomeComponent {
 
