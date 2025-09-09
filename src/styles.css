@@ -169,6 +169,8 @@ small, .text-small, p.small { color: var(--text-primary); opacity: 0.9; text-ali
   background: transparent !important;
 }
 .mat-drawer-content, .mat-sidenav-content {
+   overflow-y: scroll !important;
+  scrollbar-width: none; 
   background: transparent !important;
 }
 
