@@ -7,7 +7,7 @@
                     <mat-icon class="stat-icon candidates-icon">people</mat-icon>
                     <div class="stat-info">
                         <h2>{{ dashboardStats().totalCandidates }}</h2>
-                        <p>מועמדים רשומים</p>
+                        <p>Registered candidates</p>
                     </div>
                 </div>
             </mat-card-content>
@@ -19,7 +19,7 @@
                     <mat-icon class="stat-icon visits-icon">visibility</mat-icon>
                     <div class="stat-info">
                         <h2>{{ dashboardStats().totalVisits }}</h2>
-                        <p>סך ביקורים</p>
+                        <p>Total visits</p>
                     </div>
                 </div>
             </mat-card-content>
@@ -31,7 +31,7 @@
                     <mat-icon class="stat-icon rate-icon">trending_up</mat-icon>
                     <div class="stat-info">
                         <h2>{{ dashboardStats().registrationRate.toFixed(1) }}%</h2>
-                        <p>שיעור הרשמה</p>
+                        <p>Registration rate</p>
                     </div>
                 </div>
             </mat-card-content>
@@ -43,37 +43,36 @@
         <mat-card-header>
             <mat-card-title>
                 <mat-icon>search</mat-icon>
-                חיפוש וסינון מועמדים
-            </mat-card-title>
+                Searching and filtering candidates </mat-card-title>
         </mat-card-header>
         <mat-card-content>
             <div class="filters-container">
 
                 <mat-form-field appearance="outline" class="search-field">
-                    <mat-label>חיפוש</mat-label>
+                    <mat-label>Search</mat-label>
                     <input matInput [ngModel]="searchTerm()" (ngModelChange)="updateSearchTerm($event)"
-                        placeholder="חפש לפי שם או אימייל..." />
+                        placeholder="Search by name or email..." />
                     <mat-icon matSuffix>search</mat-icon>
                 </mat-form-field>
 
                 <mat-form-field appearance="outline" class="filter-field">
-                    <mat-label>מסנן לפי עיר</mat-label>
+                    <mat-label>Filter by city</mat-label>
                     <mat-select [value]="selectedCityFilter()" (selectionChange)="selectedCityFilter.set($event.value)">
-                        <mat-option value="">כל הערים</mat-option>
+                        <mat-option value="">All cities</mat-option>
                         <mat-option *ngFor="let city of availableCities()" [value]="city">
                             {{ city }}
                         </mat-option>
                     </mat-select>
                 </mat-form-field>
-
+                
 
                 <mat-form-field appearance="outline">
-                    <mat-label>גיל מינימום</mat-label>
+                    <mat-label>Minimum age</mat-label>
                     <input matInput type="number" [ngModel]="minAge()" (ngModelChange)="setMinAge($event)">
                 </mat-form-field>
 
                 <mat-form-field appearance="outline">
-                    <mat-label>גיל מקסימום</mat-label>
+                    <mat-label>Maximum age</mat-label>
                     <input matInput type="number" [ngModel]="maxAge()" (ngModelChange)="setMaxAge($event)">
                 </mat-form-field>
 
@@ -86,7 +85,7 @@
         <mat-card-header>
             <mat-card-title>
                 <mat-icon>people</mat-icon>
-                רשימת מועמדים ({{ filteredCandidates().length }})
+                List of candidates ({{ filteredCandidates().length }})
             </mat-card-title>
         </mat-card-header>
         <mat-card-content>
@@ -110,7 +109,7 @@
                         </p>
                         <p class="candidate-details">
                             <mat-icon>location_city</mat-icon>
-                            {{ candidate.city }} | גיל: {{ candidate.age }}
+                            {{ candidate.city }} | Age: {{ candidate.age }}
                         </p>
                         <p class="candidate-summary">
                             {{ getCandidateSummary(candidate.whyPerfectCandidate) }}
@@ -120,7 +119,7 @@
                             <mat-chip-set>
                                 <mat-chip *ngIf="candidate.canEdit" color="accent" selected>
                                     <mat-icon>edit</mat-icon>
-                                    ניתן לעריכה
+                                    Editable
                                 </mat-chip>
                                 <mat-chip>
                                     <mat-icon>calendar_today</mat-icon>
@@ -137,7 +136,7 @@
             @else{
             <div class="no-candidates">
                 <mat-icon>person_off</mat-icon>
-                <p>לא נמצאו מועמדים המתאימים לקריטריונים</p>
+                <p>No candidates were found that fit the criteria</p>
             </div>
             }
         </mat-card-content>
@@ -148,8 +147,7 @@
             <mat-card-header>
                 <mat-card-title>
                     <mat-icon>bar_chart</mat-icon>
-                    התפלגות גילאים
-                </mat-card-title>
+                    Age distribution </mat-card-title>
             </mat-card-header>
             <mat-card-content>
                 <canvas id="ageChart"></canvas>

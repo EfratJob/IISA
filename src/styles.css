@@ -24,7 +24,6 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 html, body {
   background: var(--cosmic-bg-start);
   color: var(--text-primary);
-  text-align: right;
 }
 
 /* Starfield overlays (match success page vibe) */
@@ -192,7 +191,6 @@ a:hover { text-shadow: 0 0 10px rgba(0, 229, 255, 0.5); }
 }
 .mat-mdc-menu-item { color: var(--text-primary) !important; }
 .mat-mdc-menu-item .mat-icon { color: var(--neon-cyan); }
-.mat-mdc-menu-content { text-align: right; }
 
 /* Right-edge alignment for RTL popups */
 .mat-mdc-menu-panel, .mat-mdc-select-panel { inset-inline-start: auto !important; }
@@ -312,7 +310,6 @@ a:hover { text-shadow: 0 0 10px rgba(0, 229, 255, 0.5); }
 }
 
 /* RTL alignment: float label and input text from the right */
-.mat-mdc-form-field .mdc-floating-label, .mat-mdc-input-element { text-align: right; }
 
 /* Increase notch padding so label doesn't collide with value */
 .mdc-notched-outline__notch { padding-inline-start: 8px; padding-inline-end: 8px; }

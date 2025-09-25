@@ -125,7 +125,7 @@ export class DashboardComponent {
       data: {
         labels,
         datasets: [{
-          label: 'כמות מועמדים לפי גיל',
+          label: 'Number of candidates by age',
           data,
           backgroundColor: '#42A5F5',
           borderRadius: 6,
@@ -146,8 +146,8 @@ export class DashboardComponent {
           }
         },
         scales: {
-          x: { grid: { display: false }, ticks: { color: '#ffffff' }, title: { display: true, text: 'גיל', color: '#ffffff' } },
-          y: { beginAtZero: true, ticks: { color: '#ffffff' }, title: { display: true, text: 'מספר מועמדים', color: '#ffffff' } }
+          x: { grid: { display: false }, ticks: { color: '#ffffff' }, title: { display: true, text: 'age', color: '#ffffff' } },
+          y: { beginAtZero: true, ticks: { color: '#ffffff' }, title: { display: true, text: 'number of candidates', color: '#ffffff' } }
         }
       }
     });

@@ -68,7 +68,7 @@ export class AddEditRegisterComponent {
       const candidate = this.dataService.findCandidateByEmail(email);
 
       if (!candidate) {
-        this.snackBar.open('כתובת המייל לא נמצאה במערכת', 'סגור', {
+        this.snackBar.open('Email address not found in the system', 'Close', {
           duration: 4000,
           horizontalPosition: 'center',
           verticalPosition: 'top',
@@ -78,7 +78,7 @@ export class AddEditRegisterComponent {
       }
 
       if (!candidate.canEdit) {
-        this.snackBar.open('לא ניתן לערוך את ההרשמה - עברו יותר מ-3 ימים', 'סגור', {
+        this.snackBar.open('Cannot edit registration - more than 3 days have passed', 'Close', {
           duration: 5000,
           horizontalPosition: 'center',
           verticalPosition: 'top',
@@ -87,7 +87,7 @@ export class AddEditRegisterComponent {
         return;
       }
 
-      this.snackBar.open('מועמד נמצא! מעבר לעריכת פרטים...', 'סגור', {
+      this.snackBar.open('Candidate found! Beyond editing details...', 'Close', {
         duration: 3000,
         horizontalPosition: 'center',
         verticalPosition: 'top',
@@ -98,7 +98,7 @@ export class AddEditRegisterComponent {
 
     } catch (error) {
       console.error('Error during login:', error);
-      this.snackBar.open('שגיאה במערכת. נסה שוב.', 'סגור', {
+      this.snackBar.open('System error. Please try again.', 'Close', {
         duration: 3000,
         horizontalPosition: 'center',
         verticalPosition: 'top',

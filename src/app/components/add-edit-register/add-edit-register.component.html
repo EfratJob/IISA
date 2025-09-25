@@ -3,8 +3,8 @@
     <mat-card-header>
       <div class="header-content">
         <div class="header-text">
-          <mat-card-title>כניסה למועמד קיים</mat-card-title>
-          <mat-card-subtitle>הזן את כתובת המייל שלך לגישה לפרטי ההרשמה</mat-card-subtitle>
+          <mat-card-title>Login</mat-card-title>
+          <mat-card-subtitle>Enter your email address to access registration details.</mat-card-subtitle>
         </div>
       </div>
     </mat-card-header>
@@ -13,13 +13,13 @@
       <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="registration-form">
         <div class="form-row">
           <mat-form-field appearance="outline" class="half-width">
-            <mat-label>כתובת אימייל</mat-label>
+            <mat-label>Email</mat-label>
             <input matInput formControlName="email" type="email">
             <mat-error *ngIf="loginForm.get('email')?.hasError('required')">
-              כתובת אימייל נדרשת
+              Email is required
             </mat-error>
             <mat-error *ngIf="loginForm.get('email')?.hasError('email')">
-              כתובת אימייל לא תקינה
+              Invalid email
             </mat-error>
           </mat-form-field>
 
@@ -34,8 +34,8 @@
             class="submit-btn">
             <mat-spinner *ngIf="isLoading()" diameter="20" class="spinner"></mat-spinner>
             <mat-icon *ngIf="!isLoading()">search</mat-icon>
-            <span>חפש הרשמה</span>
-          </button>
+<span>Search for registration</span>
+ </button>
 
 
         </div>
@@ -43,7 +43,7 @@
       <div class="back-button-container" style="margin-top: 16px;">
         <button mat-stroked-button routerLink="/home">
           <mat-icon>arrow_back</mat-icon>
-          חזור לרשימה
+          Back to list
         </button>
       </div>
     </mat-card-content>

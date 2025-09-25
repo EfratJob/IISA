@@ -105,7 +105,7 @@ export class RegistrationComponent {
     if (!file) return;
 
     if (!file.type.match(/image\/(jpeg|png)/)) {
-      this.snackBar.open('רק קבצי JPEG או PNG מותרים', 'סגור', {
+      this.snackBar.open('Only JPEG or PNG files allowed', 'Close', {
         duration: 3000,
         horizontalPosition: 'center',
         verticalPosition: 'top'
@@ -114,7 +114,7 @@ export class RegistrationComponent {
     }
 
     if (file.size > 5 * 1024 * 1024) {
-      this.snackBar.open('גודל הקובץ חייב להיות קטן מ-5MB', 'סגור', {
+      this.snackBar.open('File size must be less than 5MB', 'Close', {
         duration: 3000,
         horizontalPosition: 'center',
         verticalPosition: 'top'
@@ -139,13 +139,13 @@ export class RegistrationComponent {
   deleteCandidate() {
     const dialogRef = this.dialog.open(DialogComponent, {
       width: '350px',
-      data: { message: 'את/ה בטוח/ה שברצונך למחוק?' }
+      data: { message: 'Are you sure you want to delete?' }
     });
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.dataService.removeCurrentUserCandidate(this.candidateId());
-        this.snackBar.open('המועמד נמחק בהצלחה', 'סגור', {
+        this.snackBar.open('Candidate successfully deleted', 'Close', {
           duration: 3000,
           horizontalPosition: 'center',
           verticalPosition: 'top'
@@ -172,7 +172,7 @@ export class RegistrationComponent {
         if (candidate) {
           this.dataService.updateCandidate(candidate.id, formData).subscribe(success => {
             if (success) {
-              this.snackBar.open('הפרטים עודכנו בהצלחה!', 'סגור', {
+              this.snackBar.open('Details updated successfully!', 'Close', {
                 duration: 3000,
                 horizontalPosition: 'center',
                 verticalPosition: 'top'
@@ -180,7 +180,7 @@ export class RegistrationComponent {
               this.router.navigate(['/register-success']);
 
             } else {
-              throw new Error('לא ניתן לעדכן את הפרטים');
+              throw new Error('The details cannot be updated');
             }
 
           });
@@ -189,7 +189,7 @@ export class RegistrationComponent {
       } else {
         this.dataService.addCandidate(formData).subscribe(success => {
           if (success) {
-            this.snackBar.open('ההרשמה בוצעה בהצלחה!', 'סגור', {
+            this.snackBar.open('Registration successful!', 'Close', {
               duration: 3000,
               horizontalPosition: 'center',
               verticalPosition: 'top'
@@ -197,12 +197,12 @@ export class RegistrationComponent {
             this.router.navigate(['/register-success']);
             this.resetForm();
           } else {
-            throw new Error('לא ניתן להוסיף את המועמד');
+            throw new Error('Cannot add candidate');
           }
         })
       }
     } catch (error) {
-      this.snackBar.open('שגיאה בשמירת הנתונים. נסה שוב.', 'סגור', {
+      this.snackBar.open('Error saving data. Try again.', 'Close', {
         duration: 3000,
         horizontalPosition: 'center',
         verticalPosition: 'top'

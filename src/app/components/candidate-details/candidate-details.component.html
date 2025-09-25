@@ -4,11 +4,11 @@
       <mat-card-content>
         <div class="not-found-content">
           <mat-icon class="not-found-icon">person_off</mat-icon>
-          <h2>מועמד לא נמצא</h2>
-          <p>המועמד המבוקש לא נמצא במערכת</p>
+          <h2>Candidate not found</h2>
+          <p>The requested candidate is not in the system</p>
           <button mat-raised-button color="primary" routerLink="/dashboard">
             <mat-icon>arrow_back</mat-icon>
-            חזור לדשבורד
+            Back to dashboard
           </button>
         </div>
       </mat-card-content>
@@ -19,19 +19,19 @@
     <div class="navigation-bar">
       <button mat-stroked-button routerLink="/dashboard">
         <mat-icon>arrow_back</mat-icon>
-        חזור לרשימה
+        Back to list
       </button>
 
       <div class="navigation-buttons">
-        <button mat-icon-button [disabled]="!hasNextCandidate()" (click)="navigateToNext()" matTooltip="מועמד הבא">
+        <button mat-icon-button [disabled]="!hasNextCandidate()" (click)="navigateToNext()" matTooltip="Next Candidate">
           <mat-icon>navigate_next</mat-icon>
         </button>
 
         <span class="candidate-position">
-          {{ currentCandidateIndex() + 1 }} מתוך {{ totalCandidates() }}
+          {{ currentCandidateIndex() + 1 }} in {{ totalCandidates() }}
         </span>
         <button mat-icon-button [disabled]="!hasPreviousCandidate()" (click)="navigateToPrevious()"
-          matTooltip="מועמד קודם">
+          matTooltip="Previous candidate">
           <mat-icon>navigate_before</mat-icon>
         </button>
 
@@ -55,15 +55,14 @@
               <mat-chip-set>
                 <mat-chip *ngIf="candidate()?.canEdit" color="accent" selected>
                   <mat-icon>edit</mat-icon>
-                  ניתן לעריכה
-                </mat-chip>
+                  Editable </mat-chip>
                 <mat-chip>
                   <mat-icon>calendar_today</mat-icon>
-                  נרשם: {{ candidate()?.submissionDate| date:'dd/MM/yyyy' }}
+                  Registered: {{ candidate()?.submissionDate| date:'dd/MM/yyyy' }}
                 </mat-chip>
                 <mat-chip *ngIf="candidate()?.lastEditDate">
                   <mat-icon>update</mat-icon>
-                  עודכן: {{ candidate()?.lastEditDate | date:'dd/MM/yyyy' }}
+                  Updated: {{ candidate()?.lastEditDate | date:'dd/MM/yyyy' }}
                 </mat-chip>
               </mat-chip-set>
             </div>
@@ -76,15 +75,14 @@
       <mat-card-header>
         <mat-card-title>
           <mat-icon>contact_mail</mat-icon>
-          פרטי יצירת קשר
-        </mat-card-title>
+          Contact information </mat-card-title>
       </mat-card-header>
       <mat-card-content>
         <div class="info-grid">
           <div class="info-item">
             <mat-icon>email</mat-icon>
             <div class="info-content">
-              <label>אימייל:</label>
+              <label>Email:</label>
               <span>{{ candidate()?.email }}</span>
             </div>
           </div>
@@ -92,7 +90,7 @@
           <div class="info-item">
             <mat-icon>phone</mat-icon>
             <div class="info-content">
-              <label>טלפון:</label>
+              <label>Phone number:</label>
               <span>{{ candidate()?.phoneNumber }}</span>
             </div>
           </div>
@@ -100,7 +98,7 @@
           <div class="info-item">
             <mat-icon>cake</mat-icon>
             <div class="info-content">
-              <label>גיל:</label>
+              <label>Age:</label>
               <span>{{ candidate()?.age }}</span>
             </div>
           </div>
@@ -108,7 +106,7 @@
           <div class="info-item">
             <mat-icon>location_city</mat-icon>
             <div class="info-content">
-              <label>עיר מגורים:</label>
+              <label>City :</label>
               <span>{{ candidate()?.city }}</span>
             </div>
           </div>
@@ -120,7 +118,7 @@
       <mat-card-header>
         <mat-card-title>
           <mat-icon>sports_esports</mat-icon>
-          תחביבים
+          Hobbies
         </mat-card-title>
       </mat-card-header>
       <mat-card-content>
@@ -134,7 +132,7 @@
       <mat-card-header>
         <mat-card-title>
           <mat-icon>star</mat-icon>
-          למה אני המועמד המושלם
+          Why am I the perfect candidate?
         </mat-card-title>
       </mat-card-header>
       <mat-card-content>

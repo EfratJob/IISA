@@ -54,13 +54,11 @@ body, html {
     background-color: #00d4d4;
   }
   
-  /* אנימציה פנימית */
   @keyframes popIn {
     0% { transform: scale(0.5); opacity: 0; }
     100% { transform: scale(1); opacity: 1; }
   }
   
-  /* כוכבים ברקע */
   .stars, .stars2, .stars3 {
     position: absolute;
     top: 0; left: 0;
