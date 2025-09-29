@@ -223,9 +223,11 @@ export class DataService {
   }
 
   private setupLiveUpdates(): void {
-    setInterval(() => {
-      this.loadData();
-    }, 5000);
+    window.addEventListener('storage', (event: StorageEvent) => {
+      if (event.key === this.STORAGE_KEY || event.key === this.VISITS_KEY) {
+        this.loadData();
+      }
+    });
   }
 
   findCandidateByEmail(email: string): Candidate | undefined {
