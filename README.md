@@ -67,8 +67,7 @@ code 💡.
 
 ## 🔑 Default Credentials
 
-To log in to the application, you can use the following static credentials:
-
+To access the management dashboard, use the following static credentials:
 ``` bash
 Username: admin
 Password: 1234
