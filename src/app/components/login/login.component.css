@@ -1,0 +1,57 @@
+.login-container{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  padding:40px 16px;
+}
+
+.login-card{
+  width:100%;
+  max-width:420px;
+}
+
+.full-width{
+  width:100%;
+}
+
+.themed-card{
+  background-color: rgba(13, 27, 42, 0.9) !important;
+  border: 2px solid #00ffff !important;
+  border-radius: 20px !important;
+  box-shadow: 0 0 30px rgba(0, 255, 255, 0.35) !important;
+  color: #ffffff !important;
+}
+
+/* Layout tweaks */
+.login-card .mat-mdc-card-header{
+  justify-content:center;
+  text-align:center;
+}
+
+.login-card .mat-mdc-card-title{
+  width:100%;
+  text-align:center;
+  font-size:1.6rem;
+  margin-top:8px;
+  margin-bottom:16px;
+}
+
+.mat-mdc-card-content form{
+  display:flex;
+  flex-direction:column;
+  gap:16px;
+}
+
+.actions{
+  display:flex;
+  justify-content:center;
+  margin-top:8px;
+}
+
+.submit-btn{
+  min-width:180px;
+  height:44px;
+  font-size:1rem;
+}
+
+
