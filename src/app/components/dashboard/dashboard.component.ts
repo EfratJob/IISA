@@ -40,6 +40,7 @@ import { AuthService } from '../../services/auth.service';
 export class DashboardComponent {
 
   ageChart: Chart | null = null;
+  editReturnChart: Chart | null = null;
   minAge = signal<number | null>(null);
   maxAge = signal<number | null>(null);
 
@@ -56,6 +57,7 @@ export class DashboardComponent {
       const labels = distribution.map(d => d.age.toString());
       const data = distribution.map(d => d.count);
       this.updateAgeChart(labels, data);
+      this.updateEditedWithin3DaysChart();
     });
   }
 
@@ -113,6 +115,9 @@ export class DashboardComponent {
     if (this.ageChart) {
       this.ageChart.destroy();
     }
+    if (this.editReturnChart) {
+      this.editReturnChart.destroy();
+    }
   }
 
   getCandidateSummary(text: string): string {
@@ -154,6 +159,69 @@ export class DashboardComponent {
         scales: {
           x: { grid: { display: false }, ticks: { color: '#ffffff' }, title: { display: true, text: 'age', color: '#ffffff' } },
           y: { beginAtZero: true, ticks: { color: '#ffffff' }, title: { display: true, text: 'number of candidates', color: '#ffffff' } }
+        }
+      }
+    });
+  }
+
+  private updateEditedWithin3DaysChart() {
+    const candidates = this.dataService.candidatesList();
+    const THREE_DAYS_MS = 3 * 24 * 60 * 60 * 1000;
+
+    let editedWithin3Days = 0;
+    for (const c of candidates) {
+      if (c.lastEditDate) {
+        const diff = new Date(c.lastEditDate).getTime() - new Date(c.submissionDate).getTime();
+        if (diff <= THREE_DAYS_MS && diff >= 0) {
+          editedWithin3Days++;
+        }
+      }
+    }
+    const notEditedWithin3Days = Math.max(0, candidates.length - editedWithin3Days);
+
+    const total = candidates.length || 1;
+    const editedPct = +(editedWithin3Days / total * 100).toFixed(1);
+    const notEditedPct = +(notEditedWithin3Days / total * 100).toFixed(1);
+
+    const ctx = document.getElementById('editReturnChart') as HTMLCanvasElement;
+
+    if (!ctx) { return; }
+
+    if (this.editReturnChart) {
+      this.editReturnChart.destroy();
+    }
+
+    this.editReturnChart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: ['Edited within 3 days', 'Not edited within 3 days'],
+        datasets: [{
+          label: 'Percent of candidates',
+          data: [editedPct, notEditedPct],
+          backgroundColor: ['#4caf50', '#ef5350'],
+          borderRadius: 6,
+          borderSkipped: false
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            backgroundColor: '#333',
+            titleColor: '#fff',
+            bodyColor: '#fff',
+            padding: 10,
+            cornerRadius: 8,
+            callbacks: {
+              label: (ctx: any) => `${ctx.raw}%`
+            }
+          }
+        },
+        scales: {
+          x: { grid: { display: false }, ticks: { color: '#ffffff' } },
+          y: { beginAtZero: true, max: 100, ticks: { color: '#ffffff', callback: (v: any) => `${v}%` } }
         }
       }
     });
