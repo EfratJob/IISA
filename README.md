@@ -65,6 +65,17 @@ code 💡.
 
 ------------------------------------------------------------------------
 
+## 🔑 Default Credentials
+
+To log in to the application, you can use the following static credentials:
+
+``` bash
+Username: admin
+Password: 1234
+```
+
+------------------------------------------------------------------------
+
 ## 🌌 Ready for Launch?
 
 Now it's your chance to join our adventurous journey beyond the
