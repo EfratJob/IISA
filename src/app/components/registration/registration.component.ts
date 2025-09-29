@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, signal } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -14,6 +14,11 @@ import { DataService } from '../../services/data.service';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogComponent } from '../dialog/dialog.component';
+import { City } from '../../models/city';
+import { CityService } from '../../services/city.service';
+import { debounceTime, map, startWith } from 'rxjs';
+import { MatSelectModule } from '@angular/material/select';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 @Component({
   selector: 'app-registration',
@@ -28,7 +33,10 @@ import { DialogComponent } from '../dialog/dialog.component';
     MatProgressSpinnerModule,
     MatIconModule,
     MatStepperModule,
-    RouterModule
+    RouterModule,
+      MatSelectModule,
+    MatIconModule,
+    MatAutocompleteModule,
   ], templateUrl: './registration.component.html',
   styleUrl: './registration.component.css',
   standalone: true,
@@ -43,13 +51,20 @@ export class RegistrationComponent {
   private selectedImage = signal<File | null>(null);
   private editingCandidateSignal = signal<Candidate | null>(null);
 
+  allCities = signal<City[]>([]);
+  filteredCities = signal<City[]>([]);
+
+  private cityNameSet: Set<string> = new Set<string>();
+
+
   constructor(
     private route: ActivatedRoute,
     private fb: FormBuilder,
     private dataService: DataService,
     private snackBar: MatSnackBar,
     private router: Router,
-    private dialog: MatDialog) {
+    private dialog: MatDialog,
+    private citiesService: CityService) {
 
   }
 
@@ -60,6 +75,31 @@ export class RegistrationComponent {
     });
     this.initializeForm();
     this.checkForExistingCandidate();
+
+      this.citiesService.getCities().subscribe(cities => {
+      this.allCities.set(cities);
+      this.filteredCities.set(cities);
+      this.cityNameSet = new Set(cities.map(c => c.name.toLowerCase()));
+      const cityCtrl = this.registrationForm.get('city');
+      cityCtrl?.addValidators(this.cityInListValidator);
+      cityCtrl?.updateValueAndValidity({ emitEvent: false });
+    });
+
+    // סינון בזמן אמת
+     this.registrationForm.get('city')?.valueChanges
+      .pipe(
+        startWith(''),
+        debounceTime(200),
+        map(value => this.filterCities(value))
+      )
+      .subscribe(filtered => this.filteredCities.set(filtered));
+  }
+
+  private filterCities(value: string): City[] {
+    const filterValue = value?.toLowerCase() || '';
+    return this.allCities().filter(city =>
+      city.name.toLowerCase().includes(filterValue)
+    );
   }
 
   private initializeForm(): void {
@@ -157,7 +197,16 @@ export class RegistrationComponent {
   }
 
   onSubmit() {
-    if (!this.registrationForm.valid) return;
+    if (!this.registrationForm.valid) {
+      if (this.registrationForm.get('city')?.hasError('cityNotInList')) {
+        this.snackBar.open('Please select a city from the list', 'Close', {
+          duration: 3000,
+          horizontalPosition: 'center',
+          verticalPosition: 'top'
+        });
+      }
+      return;
+    }
 
     this.isLoading.set(true);
 
@@ -177,6 +226,7 @@ export class RegistrationComponent {
                 horizontalPosition: 'center',
                 verticalPosition: 'top'
               });
+              this.persistCityForMap();
               this.router.navigate(['/register-success']);
 
             } else {
@@ -194,6 +244,7 @@ export class RegistrationComponent {
               horizontalPosition: 'center',
               verticalPosition: 'top'
             });
+            this.persistCityForMap();
             this.router.navigate(['/register-success']);
             this.resetForm();
           } else {
@@ -225,5 +276,25 @@ export class RegistrationComponent {
     this.isEditMode.set(false);
     this.editingCandidateSignal.set(null);
     this.isLoading.set(false);
+  }
+
+  private persistCityForMap(): void {
+    const cityName: string = this.registrationForm.get('city')?.value;
+    if (!cityName) return;
+    const found = this.allCities().find(c => c.name.toLowerCase() === cityName.toLowerCase());
+    if (!found) return;
+    const registrations: City[] = JSON.parse(localStorage.getItem('registrations') || '[]');
+    const exists = registrations.some(c => c.name.toLowerCase() === found.name.toLowerCase());
+    if (!exists) {
+      registrations.push({ name: found.name, latt: found.latt, long: found.long });
+      localStorage.setItem('registrations', JSON.stringify(registrations));
+    }
+  }
+
+  private cityInListValidator = (control: AbstractControl): ValidationErrors | null => {
+    const value = control.value;
+    if (!value) return null;
+    const isValid = this.cityNameSet.has(String(value).toLowerCase());
+    return isValid ? null : { cityNotInList: true };
   }
 }

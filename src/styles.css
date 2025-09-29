@@ -1,3 +1,42 @@
+/* Global dark theme for Angular Material Autocomplete overlay */
+.dark-autocomplete.mat-mdc-autocomplete-panel{
+  background-color: rgba(13, 27, 42, 0.98) !important;
+  border: 2px solid #00ffff !important;
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.25) !important;
+}
+
+.dark-autocomplete .mat-mdc-option{
+  color: #ffffff !important;
+}
+
+.dark-autocomplete .mat-mdc-option .mdc-list-item__primary-text{
+  color: #ffffff !important;
+}
+
+.dark-autocomplete .mat-mdc-option:not(.mdc-list-item--disabled).mdc-list-item--selected,
+.dark-autocomplete .mat-mdc-option:not(.mdc-list-item--disabled).mdc-list-item--activated,
+.dark-autocomplete .mat-mdc-option:not(.mdc-list-item--disabled):hover{
+  background-color: rgba(0, 255, 255, 0.15) !important;
+}
+
+/* Fallback: apply dark theme to all autocomplete panels (ensures coverage) */
+.cdk-overlay-container .mat-mdc-autocomplete-panel{
+  background-color: rgba(13, 27, 42, 0.98) !important;
+  border: 2px solid #00ffff !important;
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.25) !important;
+}
+
+.cdk-overlay-container .mat-mdc-autocomplete-panel .mat-mdc-option,
+.cdk-overlay-container .mat-mdc-autocomplete-panel .mat-mdc-option .mdc-list-item__primary-text{
+  color: #ffffff !important;
+}
+
+.cdk-overlay-container .mat-mdc-autocomplete-panel .mat-mdc-option:not(.mdc-list-item--disabled).mdc-list-item--selected,
+.cdk-overlay-container .mat-mdc-autocomplete-panel .mat-mdc-option:not(.mdc-list-item--disabled).mdc-list-item--activated,
+.cdk-overlay-container .mat-mdc-autocomplete-panel .mat-mdc-option:not(.mdc-list-item--disabled):hover{
+  background-color: rgba(0, 255, 255, 0.15) !important;
+}
+
 /* You can add global styles to this file, and also import other style files */
 
 html, body { height: 100%; }

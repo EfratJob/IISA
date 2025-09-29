@@ -21,7 +21,8 @@
 
           <div class="form-row">
             <mat-form-field appearance="outline" class="full-width">
-<mat-label>Full name</mat-label> <input matInput formControlName="fullName" placeholder="Enter full name">              <mat-error *ngIf="registrationForm.get('fullName')?.hasError('required')">
+              <mat-label>Full name</mat-label> <input matInput formControlName="fullName" placeholder="Enter full name">
+              <mat-error *ngIf="registrationForm.get('fullName')?.hasError('required')">
                 Full name is required </mat-error>
               <mat-error *ngIf="registrationForm.get('fullName')?.hasError('minlength')">
                 Full name must contain at least 2 characters. </mat-error>
@@ -66,10 +67,21 @@
               </mat-error>
             </mat-form-field>
 
+
+
+
             <mat-form-field appearance="outline" class="half-width">
               <mat-label>City</mat-label>
-              <input matInput formControlName="city">
-              <mat-error *ngIf="registrationForm.get('city')?.hasError('required')">
+              <input type="text" matInput formControlName="city" [matAutocomplete]="auto" />
+              <mat-autocomplete #auto="matAutocomplete" autoActiveFirstOption>
+                <mat-option *ngFor="let city of filteredCities()" [value]="city.name">
+                  {{ city.name }}
+                </mat-option>
+              </mat-autocomplete>
+              <mat-error *ngIf="registrationForm.get('city')?.hasError('cityNotInList')">
+                Please select a city from the list
+              </mat-error>
+               <mat-error *ngIf="registrationForm.get('city')?.hasError('required')">
                 City is required
               </mat-error>
             </mat-form-field>

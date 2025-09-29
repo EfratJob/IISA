@@ -1,10 +1,12 @@
+import { City } from "./city";
+
 export interface Candidate {
   id: string;
   fullName: string;
   email: string;
   phoneNumber: string;
   age: number;
-  city: string;
+  city: City;
   hobbies: string;
   whyPerfectCandidate: string;
   profileImage?: string;
@@ -18,7 +20,7 @@ export interface CandidateFormData {
   email: string;
   phoneNumber: string;
   age: number;
-  city: string;
+  city: City;
   hobbies: string;
   whyPerfectCandidate: string;
   profileImage?: File;

@@ -1,3 +1,19 @@
+/* Dark theme for autocomplete panel */
+.dark-autocomplete.mat-mdc-autocomplete-panel{
+  background-color: rgba(13, 27, 42, 0.98) !important;
+  border: 2px solid #00ffff !important;
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.25) !important;
+}
+
+.dark-autocomplete .mat-mdc-option{
+  color: #ffffff !important;
+}
+
+.dark-autocomplete .mat-mdc-option.mdc-list-item--selected,
+.dark-autocomplete .mat-mdc-option.mdc-list-item--activated,
+.dark-autocomplete .mat-mdc-option:hover{
+  background-color: rgba(0, 255, 255, 0.15) !important;
+}
     .registration-container {
       max-width: 800px;
       margin: 0 auto;
