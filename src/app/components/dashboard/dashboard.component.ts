@@ -10,10 +10,13 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatSelectModule } from '@angular/material/select';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { DataService } from '../../services/data.service';
 import { Chart, ChartType, registerables } from 'chart.js';
 import { DashboardStats } from '../../models/candidate';
+import { City } from '../../models/city';
+import { AuthService } from '../../services/auth.service';
+/// <reference types="google.maps" />
 
 @Component({
   selector: 'app-dashboard',
@@ -42,7 +45,9 @@ export class DashboardComponent {
 
   dashboardStats: Signal<DashboardStats>;
 
-  constructor(private dataService: DataService) {
+    map!: google.maps.Map;
+
+  constructor(private dataService: DataService, private auth: AuthService, private router: Router) {
     this.dashboardStats = this.dataService.dashboardStats;
 
     Chart.register(...registerables);
@@ -73,7 +78,7 @@ export class DashboardComponent {
         candidate.fullName.toLowerCase().includes(search) ||
         candidate.email.toLowerCase().includes(search)
 
-      const matchesCity = !cityFilter || candidate.city === cityFilter;
+      const matchesCity = !cityFilter || candidate.city.name === cityFilter;
 
       const matchesMin = !min || candidate.age >= min;
       const matchesMax = !max || candidate.age <= max;
@@ -151,5 +156,73 @@ export class DashboardComponent {
         }
       }
     });
+  }
+
+    ngAfterViewInit() {
+    this.map = new google.maps.Map(document.getElementById('map') as HTMLElement, {
+      zoom: 7,
+      center: { lat: 31.5, lng: 34.9 },
+      disableDefaultUI: true,
+      zoomControl: true,
+      fullscreenControl: true,
+      styles: [
+        { elementType: 'geometry', stylers: [{ color: '#0d1b2a' }] },
+        { elementType: 'labels.text.stroke', stylers: [{ color: '#0d1b2a' }] },
+        { elementType: 'labels.text.fill', stylers: [{ color: '#a8dadc' }] },
+        {
+          featureType: 'administrative.locality',
+          elementType: 'labels.text.fill',
+          stylers: [{ color: '#89c2d9' }]
+        },
+        {
+          featureType: 'poi.park',
+          elementType: 'geometry',
+          stylers: [{ color: '#1b263b' }]
+        },
+        {
+          featureType: 'poi.park',
+          elementType: 'labels.text.fill',
+          stylers: [{ color: '#74c69d' }]
+        },
+        {
+          featureType: 'road',
+          elementType: 'geometry',
+          stylers: [{ color: '#1b263b' }]
+        },
+        {
+          featureType: 'road',
+          elementType: 'geometry.stroke',
+          stylers: [{ color: '#1b263b' }]
+        },
+        {
+          featureType: 'road.highway',
+          elementType: 'geometry',
+          stylers: [{ color: '#1d3557' }]
+        },
+        {
+          featureType: 'water',
+          elementType: 'geometry',
+          stylers: [{ color: '#003049' }]
+        }
+      ]
+    });
+
+    this.loadMarkers();
+  }
+
+  loadMarkers() {
+    const registrations: City[] = JSON.parse(localStorage.getItem('registrations') || '[]');
+    registrations.forEach(city => {
+      new google.maps.Marker({
+        position: { lat: city.latt, lng: city.long },
+        map: this.map,
+        title: city.name
+      });
+    });
+  }
+
+  logout() {
+    this.auth.logout();
+    this.router.navigate(['/login']);
   }
 }
