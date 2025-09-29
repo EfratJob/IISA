@@ -1,8 +1,12 @@
 <div class="dashboard-container">
-<div style="display:flex; justify-content:flex-end; gap:12px; margin-bottom:12px;">
+<div class="actions-bar">
   <button mat-stroked-button color="warn" (click)="logout()">
     <mat-icon>logout</mat-icon>
     Logout
+  </button>
+  <button mat-stroked-button (click)="viewMode.set(viewMode() === 'grid' ? 'list' : 'grid')">
+    <mat-icon>{{ viewMode() === 'grid' ? 'view_list' : 'grid_view' }}</mat-icon>
+    {{ viewMode() === 'grid' ? 'List view' : 'Grid view' }}
   </button>
 </div>
 
@@ -108,9 +112,9 @@
         </mat-card-header>
         <mat-card-content>
             @if(filteredCandidates().length > 0){
-            <div class="candidates-grid">
+            <div [ngClass]="viewMode() === 'grid' ? 'candidates-grid' : 'candidates-list'">
                 @for(candidate of filteredCandidates(); track candidate.id){
-                <mat-card class="candidate-card" [routerLink]="['/candidate', candidate.id]">
+                <mat-card class="candidate-card" [class.list-item]="viewMode() === 'list'" [routerLink]="['/candidate', candidate.id]">
                     <div class="candidate-image-container">
                         <img *ngIf="candidate.profileImage" [src]="candidate.profileImage" [alt]="candidate.fullName"
                             class="candidate-image">

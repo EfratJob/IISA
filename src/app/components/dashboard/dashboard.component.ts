@@ -64,6 +64,7 @@ export class DashboardComponent {
 
   searchTerm = signal<string>('');
   selectedCityFilter = signal<string>('');
+  viewMode = signal<'grid' | 'list'>('list');
 
   filteredCandidates = computed(() => {
     const candidates = this.dataService.candidatesList();
