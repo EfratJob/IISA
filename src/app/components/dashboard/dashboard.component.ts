@@ -40,7 +40,7 @@ import { AuthService } from '../../services/auth.service';
 export class DashboardComponent {
 
   ageChart: Chart | null = null;
-  editReturnChart: Chart | null = null;
+  interestChart: Chart | null = null;
   minAge = signal<number | null>(null);
   maxAge = signal<number | null>(null);
 
@@ -57,7 +57,7 @@ export class DashboardComponent {
       const labels = distribution.map(d => d.age.toString());
       const data = distribution.map(d => d.count);
       this.updateAgeChart(labels, data);
-      this.updateEditedWithin3DaysChart();
+      this.updateInterestChartFromCandidates();
     });
   }
 
@@ -115,8 +115,8 @@ export class DashboardComponent {
     if (this.ageChart) {
       this.ageChart.destroy();
     }
-    if (this.editReturnChart) {
-      this.editReturnChart.destroy();
+    if (this.interestChart) {
+      this.interestChart.destroy();
     }
   }
 
@@ -164,67 +164,78 @@ export class DashboardComponent {
     });
   }
 
-  private updateEditedWithin3DaysChart() {
+  private updateInterestChartFromCandidates() {
     const candidates = this.dataService.candidatesList();
-    const THREE_DAYS_MS = 3 * 24 * 60 * 60 * 1000;
+    const distribution = this.computeInterestDistribution(candidates);
 
-    let editedWithin3Days = 0;
-    for (const c of candidates) {
-      if (c.lastEditDate) {
-        const diff = new Date(c.lastEditDate).getTime() - new Date(c.submissionDate).getTime();
-        if (diff <= THREE_DAYS_MS && diff >= 0) {
-          editedWithin3Days++;
-        }
-      }
-    }
-    const notEditedWithin3Days = Math.max(0, candidates.length - editedWithin3Days);
+    const ctx = document.getElementById('interestChart') as HTMLCanvasElement;
+    if (!ctx) return;
 
-    const total = candidates.length || 1;
-    const editedPct = +(editedWithin3Days / total * 100).toFixed(1);
-    const notEditedPct = +(notEditedWithin3Days / total * 100).toFixed(1);
-
-    const ctx = document.getElementById('editReturnChart') as HTMLCanvasElement;
-
-    if (!ctx) { return; }
-
-    if (this.editReturnChart) {
-      this.editReturnChart.destroy();
+    if (this.interestChart) {
+      this.interestChart.destroy();
     }
 
-    this.editReturnChart = new Chart(ctx, {
-      type: 'bar',
+    this.interestChart = new Chart(ctx, {
+      type: 'pie',
       data: {
-        labels: ['Edited within 3 days', 'Not edited within 3 days'],
+        labels: ['Not interested (0–20)', 'Low interest (21–50)', 'High interest (51–70)', 'Super interested (71–100)'],
         datasets: [{
-          label: 'Percent of candidates',
-          data: [editedPct, notEditedPct],
-          backgroundColor: ['#4caf50', '#ef5350'],
-          borderRadius: 6,
-          borderSkipped: false
+          data: [distribution.notInterestedPct, distribution.lowInterestPct, distribution.highInterestPct, distribution.superInterestedPct],
+          backgroundColor: ['#9e9e9e', '#ffb74d', '#42a5f5', '#66bb6a'],
+          borderColor: '#0d1b2a',
+          borderWidth: 1
         }]
       },
       options: {
         responsive: true,
         maintainAspectRatio: false,
         plugins: {
-          legend: { display: false },
+          legend: { position: 'bottom', labels: { color: '#ffffff' } },
           tooltip: {
-            backgroundColor: '#333',
-            titleColor: '#fff',
-            bodyColor: '#fff',
-            padding: 10,
-            cornerRadius: 8,
             callbacks: {
-              label: (ctx: any) => `${ctx.raw}%`
+              label: (ctx: any) => `${ctx.label}: ${ctx.raw}%`
             }
           }
-        },
-        scales: {
-          x: { grid: { display: false }, ticks: { color: '#ffffff' } },
-          y: { beginAtZero: true, max: 100, ticks: { color: '#ffffff', callback: (v: any) => `${v}%` } }
         }
       }
     });
+  }
+
+  private computeInterestDistribution(candidates: any[]) {
+    const caps = { hobbies: 20, reasons: 50 };
+    const weights = { hobbies: 0.3, reasons: 0.7 };
+
+    const tokenize = (text: string | undefined): string[] =>
+      (text || '')
+        .toLowerCase()
+        .split(/[^a-zA-Z\u0590-\u05FF0-9]+/)
+        .filter(w => w.length >= 3);
+
+    let notInterested = 0, lowInterest = 0, highInterest = 0, superInterested = 0;
+
+    for (const c of candidates) {
+      const hobbiesWords = tokenize(c.hobbies);
+      const reasonsWords = tokenize(c.whyPerfectCandidate);
+
+      const hobbiesScore = Math.min(1, hobbiesWords.length / caps.hobbies) * 100;
+      const reasonsScore = Math.min(1, reasonsWords.length / caps.reasons) * 100;
+
+      const totalScore = Math.round(hobbiesScore * weights.hobbies + reasonsScore * weights.reasons);
+
+      if (totalScore <= 20) notInterested++;
+      else if (totalScore <= 50) lowInterest++;
+      else if (totalScore <= 70) highInterest++;
+      else superInterested++;
+    }
+
+    const total = candidates.length || 1;
+
+    return {
+      notInterestedPct: +((notInterested / total) * 100).toFixed(1),
+      lowInterestPct: +((lowInterest / total) * 100).toFixed(1),
+      highInterestPct: +((highInterest / total) * 100).toFixed(1),
+      superInterestedPct: +((superInterested / total) * 100).toFixed(1)
+    };
   }
 
     ngAfterViewInit() {
