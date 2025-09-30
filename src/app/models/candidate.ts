@@ -6,7 +6,7 @@ export interface Candidate {
   email: string;
   phoneNumber: string;
   age: number;
-  city: City;
+  city: string;
   hobbies: string;
   whyPerfectCandidate: string;
   profileImage?: string;
@@ -20,7 +20,7 @@ export interface CandidateFormData {
   email: string;
   phoneNumber: string;
   age: number;
-  city: City;
+  city: string;
   hobbies: string;
   whyPerfectCandidate: string;
   profileImage?: File;

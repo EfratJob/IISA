@@ -81,7 +81,7 @@ export class DashboardComponent {
         candidate.fullName.toLowerCase().includes(search) ||
         candidate.email.toLowerCase().includes(search)
 
-      const matchesCity = !cityFilter || candidate.city.name === cityFilter;
+      const matchesCity = !cityFilter || candidate.city === cityFilter;
 
       const matchesMin = !min || candidate.age >= min;
       const matchesMax = !max || candidate.age <= max;
