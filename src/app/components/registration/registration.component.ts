@@ -297,4 +297,9 @@ export class RegistrationComponent {
     const isValid = this.cityNameSet.has(String(value).toLowerCase());
     return isValid ? null : { cityNotInList: true };
   }
+
+  capitalize(text: string): string {
+    if (!text) return '';
+    return text.charAt(0).toUpperCase() + text.slice(1);
+  }
 }

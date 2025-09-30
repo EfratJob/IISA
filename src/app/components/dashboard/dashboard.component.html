@@ -4,10 +4,6 @@
     <mat-icon>logout</mat-icon>
     Logout
   </button>
-  <button mat-stroked-button (click)="viewMode.set(viewMode() === 'grid' ? 'list' : 'grid')">
-    <mat-icon>{{ viewMode() === 'grid' ? 'view_list' : 'grid_view' }}</mat-icon>
-    {{ viewMode() === 'grid' ? 'List view' : 'Grid view' }}
-  </button>
 </div>
 
 <mat-card class="map-card">
@@ -61,7 +57,41 @@
 
     </div>
 
-    <mat-card class="candidates-card">
+ 
+
+    <div class="charts-grid">
+        <mat-card class="chart-card">
+            <mat-card-header>
+                <mat-card-title>
+                    <mat-icon>bar_chart</mat-icon>
+                    Age distribution </mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+                <canvas id="ageChart"></canvas>
+            </mat-card-content>
+        </mat-card>
+        <mat-card class="chart-card">
+            <mat-card-header>
+                <mat-card-title>
+                    <mat-icon>pie_chart</mat-icon>
+                    Interest distribution
+                </mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+                <canvas id="interestChart"></canvas>
+            </mat-card-content>
+        </mat-card>
+    </div>
+
+<div class="actions-bar">
+  
+  <button mat-stroked-button (click)="viewMode.set(viewMode() === 'grid' ? 'list' : 'grid')">
+    <mat-icon>{{ viewMode() === 'grid' ? 'view_list' : 'grid_view' }}</mat-icon>
+    {{ viewMode() === 'grid' ? 'List view' : 'Grid view' }}
+  </button>
+</div>
+
+   <mat-card class="candidates-card">
         <mat-card-header>
             <mat-card-title>
                 <mat-icon>search</mat-icon>
@@ -164,27 +194,5 @@
         </mat-card-content>
     </mat-card>
 
-    <div class="charts-grid">
-        <mat-card class="chart-card">
-            <mat-card-header>
-                <mat-card-title>
-                    <mat-icon>bar_chart</mat-icon>
-                    Age distribution </mat-card-title>
-            </mat-card-header>
-            <mat-card-content>
-                <canvas id="ageChart"></canvas>
-            </mat-card-content>
-        </mat-card>
-        <mat-card class="chart-card">
-            <mat-card-header>
-                <mat-card-title>
-                    <mat-icon>pie_chart</mat-icon>
-                    Interest distribution
-                </mat-card-title>
-            </mat-card-header>
-            <mat-card-content>
-                <canvas id="interestChart"></canvas>
-            </mat-card-content>
-        </mat-card>
-    </div>
+
 </div>

@@ -75,7 +75,7 @@
               <input type="text" matInput formControlName="city" [matAutocomplete]="auto" />
               <mat-autocomplete #auto="matAutocomplete" autoActiveFirstOption>
                 <mat-option *ngFor="let city of filteredCities()" [value]="city.name">
-                  {{ city.name }}
+                  {{ capitalize(city.name) }}
                 </mat-option>
               </mat-autocomplete>
               <mat-error *ngIf="registrationForm.get('city')?.hasError('cityNotInList')">
@@ -101,14 +101,14 @@
           </mat-form-field>
 
           <mat-form-field appearance="outline" class="full-width">
-            <mat-label>Why I am the perfect candidate</mat-label>
+            <mat-label>Why am I the ideal candidate?</mat-label>
             <textarea matInput formControlName="whyPerfectCandidate" rows="4"
-              placeholder="Explain why you think you are the perfect candidate for space flight..."></textarea>
+              placeholder="Share why you believe you’re the ideal candidate for this space mission..."></textarea>
             <mat-error *ngIf="registrationForm.get('whyPerfectCandidate')?.hasError('required')">
-              Explanation is required
+              A response is required
             </mat-error>
             <mat-error *ngIf="registrationForm.get('whyPerfectCandidate')?.hasError('minlength')">
-              Explanation must be at least 20 characters long
+              Your response must be at least 20 characters long
             </mat-error>
           </mat-form-field>
         </div>
